@@ -33,10 +33,10 @@ public class Transport {
   @Column
   private Integer maxWeight;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "id_company")
-  private Company company;
+//  @ManyToOne(fetch = FetchType.LAZY)
+//  @JoinColumn(name = "id_company")
+//  private Company company;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "route")
-  private List<Route> transports;
+//  @OneToMany(fetch = FetchType.LAZY, mappedBy = "route")
+//  private List<Route> transports;
 }

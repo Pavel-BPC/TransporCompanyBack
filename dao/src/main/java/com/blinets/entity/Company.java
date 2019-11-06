@@ -25,7 +25,7 @@ public class Company {
   @Column
   private String nameCompany;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "transport")
-  private List<Transport> transports;
+//  @OneToMany(fetch = FetchType.LAZY, mappedBy = "transport")
+//  private List<Transport> transports;
 
 }

@@ -27,20 +27,20 @@ public class Route {
   @Column
   private String nameRoute;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "id_point_route", referencedColumnName = "id_point")
-  private Point startIdPointOfRoute;
-
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "id_point_route", referencedColumnName = "id_point")
-  private Point endIdPointOfRoute;
+//  @OneToOne(cascade = CascadeType.ALL)
+//  @JoinColumn(name = "id_point_route", referencedColumnName = "id_point")
+//  private Point startIdPointOfRoute;
+//
+//  @OneToOne(cascade = CascadeType.ALL)
+//  @JoinColumn(name = "id_point_route", referencedColumnName = "id_point")
+//  private Point endIdPointOfRoute;
 
   @Column
   private String nextIdRoute;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "id_transport")
-  private Transport idTransport;
+//  @ManyToOne(fetch = FetchType.LAZY)
+//  @JoinColumn(name = "id_transport")
+//  private Transport idTransport;
 
   @OneToOne(mappedBy = "maps")
   private Maps maps;

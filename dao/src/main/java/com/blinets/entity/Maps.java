@@ -23,17 +23,17 @@ public class Maps {
   @Column(name = "id_maps")
   private String idMaps;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "id_point", referencedColumnName = "id_point")
-  private Point startIdPointOfRoute;
-
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "id_point", referencedColumnName = "id_point")
-  private Point endIdPointOfRoute;
-
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "id_route", referencedColumnName = "id_route")
-  private Route idRoute;
+//  @OneToOne(cascade = CascadeType.ALL)
+//  @JoinColumn(name = "id_point", referencedColumnName = "id_point")
+//  private Point startIdPointOfRoute;
+//
+//  @OneToOne(cascade = CascadeType.ALL)
+//  @JoinColumn(name = "id_point", referencedColumnName = "id_point")
+//  private Point endIdPointOfRoute;
+//
+//  @OneToOne(cascade = CascadeType.ALL)
+//  @JoinColumn(name = "id_route", referencedColumnName = "id_route")
+//  private Route idRoute;
 
   @Column
   private Integer distance;
