@@ -2,24 +2,14 @@ package com.blinets.entity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
 @NoArgsConstructor
@@ -29,7 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User {
 
   @Id
-  @Column
+  @Column(name = "id_user")
   private String idUser;
 
   @Column
@@ -53,15 +43,15 @@ public class User {
 
   private int active;
 
-  public List<String> getRoleList(){
-    if(this.roles.length() > 0){
+  public List<String> getRoleList() {
+    if (this.roles.length() > 0) {
       return Arrays.asList(this.roles.split(","));
     }
     return new ArrayList<>();
   }
 
-  public List<String> getPermissionList(){
-    if(this.permissions.length() > 0){
+  public List<String> getPermissionList() {
+    if (this.permissions.length() > 0) {
       return Arrays.asList(this.permissions.split(","));
     }
     return new ArrayList<>();

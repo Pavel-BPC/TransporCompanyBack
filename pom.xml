@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.blinets</groupId>
+  <artifactId>TransporCompany</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0</version>
+
+
+  <modules>
+    <module>dao</module>
+    <module>api</module>
+    <module>services</module>
+  </modules>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.0.5.RELEASE</version>
+  </parent>
+
+  <properties>
+    <maven.compiler.plugin.version>3.3</maven.compiler.plugin.version>
+    <tomcat.maven.plugin.version>1.1</tomcat.maven.plugin.version>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <services.version>1.0</services.version>
+    <console.version>1.0</console.version>
+    <dao.version>1.0</dao.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <artifactId>services</artifactId>
+        <groupId>com.blinets.TransporCompany</groupId>
+        <version>${services.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>dao</artifactId>
+        <groupId>com.blinets.TransporCompany</groupId>
+        <version>${dao.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>api</artifactId>
+        <groupId>com.blinets.TransporCompany</groupId>
+        <version>${api.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.springframework.session</groupId>
+      <artifactId>spring-session-jdbc</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-mail</artifactId>
+    </dependency>
+  </dependencies>
+
+
+  <name>TransporCompany</name>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>Application</mainClass>
+          <classifier>exec</classifier>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    <finalName>company</finalName>
+  </build>
+
+</project>

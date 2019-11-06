@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://192.168.99.100:32768/postgres
+    username: postgres
+    password:
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: pavelblinets@gmail.com
+    password: -
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  session:
+    jdbc:
+      initialize-schema: always
+      table-name: SPRING_SESSION
+logging:
+  level:
+    org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: ERROR
+
+security:
+  require-ssl: true
+server:
+  port: 80
+  ssl:
+    key-store-type: PKCS12
+    key-store: classpath:keystore.p12
+    key-store-password: admin1234
+    key-alias: tomcat
+

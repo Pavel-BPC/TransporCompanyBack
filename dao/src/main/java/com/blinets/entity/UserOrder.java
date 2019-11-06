@@ -16,11 +16,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-@Table
+@Table(name = "user_order")
 public class UserOrder {
 
   @Id
-  @Column
+  @Column(name = "id_user_order")
   private String idOrder;
 
   @Column
@@ -32,15 +32,16 @@ public class UserOrder {
   @Column
   private String status;
 
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "idUser")
-  private User idUser;
-
-  @OneToOne(fetch = FetchType.EAGER, optional = false)
-  @JoinColumn(name = "idMap", nullable = false)
-  private Maps idMap;
-
-  @Column
-  private String idRoute;
+//  @ManyToOne(fetch = FetchType.EAGER)
+//  @JoinColumn(name = "idUser")
+//  private User idUser;
+//
+//  @OneToOne(fetch = FetchType.EAGER, optional = false)
+//  @JoinColumn(name = "idMap", nullable = false)
+//  private Maps idMap;
+//
+//  @OneToOne(fetch = FetchType.EAGER, optional = false)
+//  @JoinColumn(name = "idRoute", nullable = false)
+//  private Route idRoute;
 
 }
