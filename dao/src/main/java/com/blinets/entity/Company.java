@@ -1,6 +1,8 @@
 package com.blinets.entity;
 
 import java.util.List;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,7 +27,6 @@ public class Company {
   @Column
   private String nameCompany;
 
-//  @OneToMany(fetch = FetchType.LAZY, mappedBy = "transport")
 //  private List<Transport> transports;
 
 }

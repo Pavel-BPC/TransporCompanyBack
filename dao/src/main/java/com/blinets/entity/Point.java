@@ -23,10 +23,4 @@ public class Point {
   @Column
   private String namePoint;
 
-  @OneToOne(mappedBy = "route")
-  private Route route;
-
-  @OneToOne(mappedBy = "maps")
-  private Maps maps;
-
 }

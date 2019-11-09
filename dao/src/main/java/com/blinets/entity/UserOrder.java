@@ -27,21 +27,14 @@ public class UserOrder {
   private Integer price;
 
   @Column
-  private Integer weight;
-
-  @Column
   private String status;
 
-//  @ManyToOne(fetch = FetchType.EAGER)
-//  @JoinColumn(name = "idUser")
-//  private User idUser;
-//
-//  @OneToOne(fetch = FetchType.EAGER, optional = false)
-//  @JoinColumn(name = "idMap", nullable = false)
-//  private Maps idMap;
-//
-//  @OneToOne(fetch = FetchType.EAGER, optional = false)
-//  @JoinColumn(name = "idRoute", nullable = false)
-//  private Route idRoute;
+  @ManyToOne(fetch = FetchType.EAGER, optional = false)
+  @JoinColumn(name = "id_user", nullable = false)
+  private User user;
+
+  @OneToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "id_maps", nullable = false)
+  private Maps maps;
 
 }

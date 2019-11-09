@@ -1,11 +1,11 @@
 package com.blinets.repository;
 
-import com.blinets.entity.User;
+import com.blinets.entity.UserOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserOrderRepository extends JpaRepository<UserOrder, String> {
 
 
 }

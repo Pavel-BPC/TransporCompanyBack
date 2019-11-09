@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "transport")
-public class Transport {
+public class Transport  {
 
   @Id
   @Column(name = "id_transport")
@@ -33,10 +33,8 @@ public class Transport {
   @Column
   private Integer maxWeight;
 
-//  @ManyToOne(fetch = FetchType.LAZY)
-//  @JoinColumn(name = "id_company")
-//  private Company company;
+  @ManyToOne(fetch = FetchType.EAGER, optional = false)
+  @JoinColumn(name = "id_company", nullable = false)
+  private Company company;
 
-//  @OneToMany(fetch = FetchType.LAZY, mappedBy = "route")
-//  private List<Route> transports;
 }
