@@ -1,5 +1,6 @@
 package com.blinets.entity;
 
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,6 +29,14 @@ public class UserOrder {
 
   @Column
   private String status;
+
+  @Column
+  private LocalDate fullTime;
+  @Column
+  private LocalDate startDate;
+  @Column
+  private LocalDate endDate;
+
 
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "id_user", nullable = false)
