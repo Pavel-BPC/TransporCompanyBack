@@ -4,9 +4,14 @@ import com.blinets.dto.UserDto;
 import com.blinets.entity.User;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
+import com.blinets.mapper.UserMapper;
+import com.blinets.repository.UserRepository;
 import com.blinets.services.CrudService;
 import java.util.List;
+import java.util.UUID;
 import lombok.extern.log4j.Log4j2;
+import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +20,26 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserServices implements CrudService<UserDto> {
 
+  private UserMapper userMapper = Mappers.getMapper(UserMapper.class);
+
+  private final UserRepository userRepository;
+
+  @Autowired
+  public UserServices(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
   @Override
   public String create(UserDto object)
       throws DontExistsObjectInDatabaseException, UniqueObjectException {
+//    User user = userMapper.dtoToUser(object);
+//    user.setIdUser(UUID.randomUUID().toString());
+//    user.setPermissions("");
+//    user.setRoles("ADMIN");
+//    user.setActive(1);
+//
+//    userRepository.save(user);
+
     return null;
   }
 
