@@ -2,6 +2,7 @@ package com.blinets.services.imp;
 
 import com.blinets.entity.User;
 import com.blinets.repository.UserRepository;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceSecurity implements UserDetailsService {
+public class UserServiceSecurity {
 
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
@@ -29,41 +30,12 @@ public class UserServiceSecurity implements UserDetailsService {
   @PostConstruct
   public void init() {
     userRepository.deleteAll();
-    User user = new User();
-    user.setIdUser(UUID.randomUUID().toString());
-    user.setLogin("user");
-    user.setPassword(passwordEncoder.encode("user"));
-//    List<String> objects = new ArrayList<>();
-//    objects.add("USER");
-    user.setRoles("USER");
 
-    User admin = new User();
-    admin.setIdUser(UUID.randomUUID().toString());
-    admin.setLogin("admin");
-    admin.setPassword(passwordEncoder.encode("admin"));
-//    objects.add("DETONATOR");
-    admin.setRoles("ADMIN");
+    User user = new User(UUID.randomUUID().toString(),"user",passwordEncoder.encode("user"),"USER","");
+    User admin = new User(UUID.randomUUID().toString(),"admin",passwordEncoder.encode("admin"),"ADMIN","ACCESS_TEST1,ACCESS_TEST2");
 
-    userRepository.save(admin);
-    userRepository.save(user);
+    userRepository.saveAll(Arrays.asList(user,admin));
   }
 
-  @Override
-  public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-    User loggedInUser = findByLogin(login)
-        .orElseThrow(() -> new UsernameNotFoundException("User not found: " + login));
-
-    List<SimpleGrantedAuthority> simpleGrantedAuthorities = Stream.of(loggedInUser.getRoles())
-        .map(SimpleGrantedAuthority::new)
-        .collect(Collectors.toList());
-    System.out.println(loggedInUser.getLogin());
-    System.out.println(loggedInUser.getPassword());
-    return new org.springframework.security.core.userdetails.User(loggedInUser.getLogin(),
-        loggedInUser.getPassword(), simpleGrantedAuthorities);
-  }
-
-  public Optional<User> findByLogin(String login) {
-    return Optional.ofNullable(userRepository.findByLogin(login));
-  }
 
 }

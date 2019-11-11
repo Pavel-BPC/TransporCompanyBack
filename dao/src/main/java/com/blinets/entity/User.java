@@ -1,5 +1,8 @@
 package com.blinets.entity;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,25 +13,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "user_s")
-public class User {
-
-//  public User(String idUser, String login, String password, String roles,
-//      String permissions, int active) {
-//    this.idUser = idUser;
-//    this.login = login;
-//    this.password = password;
-//    this.roles = roles;
-//    this.permissions = permissions;
-//    this.active = active;
-//  }
-
-  //  @Column
-//  private Boolean isResolve;
-//  @Column
+public class User implements Serializable {
 
   @Id
   @Column(name = "id_user")
@@ -44,24 +33,36 @@ public class User {
   @Column
   private String phoneNumber;
 
-  private String roles;
-//  public List<String> roles;
+  private int active;
 
-//  private String permissions = "";
+  @Column
+  private String roles = "";
 
-//  private int active;
-//
-//  public List<String> getRoleList() {
-//    if (this.roles.length() > 0) {
-//      return Arrays.asList(this.roles.split(","));
-//    }
-//    return new ArrayList<>();
-//  }
-//
-//  public List<String> getPermissionList() {
-//    if (this.permissions.length() > 0) {
-//      return Arrays.asList(this.permissions.split(","));
-//    }
-//    return new ArrayList<>();
-//  }
+  private String permissions = "";
+
+  public User() {
+  }
+
+  public User(String idUser, String login, String password, String roles, String permissions) {
+    this.idUser = idUser;
+    this.login = login;
+    this.password = password;
+    this.roles = roles;
+    this.permissions = permissions;
+    this.active = 1;
+  }
+
+  public List<String> getRoleList(){
+    if(this.roles.length() > 0){
+      return Arrays.asList(this.roles.split(","));
+    }
+    return new ArrayList<>();
+  }
+
+  public List<String> getPermissionList(){
+    if(this.permissions.length() > 0){
+      return Arrays.asList(this.permissions.split(","));
+    }
+    return new ArrayList<>();
+  }
 }
