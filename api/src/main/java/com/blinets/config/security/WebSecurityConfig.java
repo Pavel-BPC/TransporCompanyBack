@@ -5,6 +5,7 @@ import com.blinets.services.imp.UserServiceSecurity;
 import com.blinets.services.security.constant.Roles;
 import com.blinets.services.security.filter.RequestBodyReaderAuthenticationFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,8 +23,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
+@CrossOrigin
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final UserServiceSecurity userService;
@@ -68,7 +74,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
-        .csrf().disable()
+//        .csrf().disable()
+        .cors().disable()
         .authorizeRequests()
 
 //        .antMatchers("/users").hasRole(Roles.USER_ROLE)
@@ -85,11 +92,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .logoutUrl("/logout")
         .logoutSuccessHandler(this::logoutSuccessHandler)
 
+
         .and()
         .exceptionHandling()
-        .authenticationEntryPoint(authenticationEntryPoint);
+
+        .authenticationEntryPoint(authenticationEntryPoint)
+
+    ;
   }
 
+//  @Bean
+//  public CorsConfigurationSource corsConfigurationSource() {
+//    final CorsConfiguration configuration = new CorsConfiguration();
+//    configuration.setAllowedOrigins(ImmutableList.of("*"));
+//    configuration.setAllowedMethods(ImmutableList.of("HEAD",
+//        "GET", "POST", "PUT", "DELETE", "PATCH"));
+//    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//    source.registerCorsConfiguration("/**", configuration);
+//    return source;
+//  }
 
   private void loginSuccessHandler(
       HttpServletRequest request,
