@@ -1,16 +1,17 @@
 package com.blinets.controller;
 
+import com.blinets.config.security.dto.LoginRequest;
 import com.blinets.configuration.ControllersReturnRequests;
 import com.blinets.dto.UserDto;
 import com.blinets.entity.User;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
-import com.blinets.repository.UserRepository;
 import com.blinets.services.CrudService;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -34,10 +37,12 @@ public class UserController extends ControllersReturnRequests {
     this.userServices = userServices;
   }
 
-  @PostMapping("/login")
-  public ResponseEntity<User> login(User user){
+  @GetMapping("/login")
+  public User login(@RequestHeader HttpHeaders user){
     System.out.println(user);
-    return new ResponseEntity<>(user,HttpStatus.OK);
+    User admin = new User(UUID.randomUUID().toString(),"admin","$2a$10$tnWLPrQ41NlMvb5JFKn5p.e/vBy.l.vv8iD34pMDlMGTVoosXfoAa","USER","ACCESS_TEST1,ACCESS_TEST2");
+
+    return admin;
   }
 
   @GetMapping("/users")
