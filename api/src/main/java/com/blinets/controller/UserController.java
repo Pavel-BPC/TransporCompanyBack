@@ -2,15 +2,12 @@ package com.blinets.controller;
 
 import com.blinets.configuration.ControllersReturnRequests;
 import com.blinets.dto.UserDto;
-import com.blinets.entity.User;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
 import com.blinets.services.CrudService;
-import java.util.Arrays;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,9 +34,10 @@ public class UserController extends ControllersReturnRequests {
   }
 
   @GetMapping("/login")
-  public UserDto login(@RequestHeader HttpHeaders user){
+  public UserDto login(@RequestHeader HttpHeaders user) {
     System.out.println(user);
-    UserDto admin = new UserDto(UUID.randomUUID().toString(),"admin","$2a$10$tnWLPrQ41NlMvb5JFKn5p.e/vBy.l.vv8iD34pMDlMGTVoosXfoAa","USER");
+    UserDto admin = new UserDto(UUID.randomUUID().toString(), "admin",
+        "$2a$10$tnWLPrQ41NlMvb5JFKn5p.e/vBy.l.vv8iD34pMDlMGTVoosXfoAa", "USER");
 
     return admin;
   }
@@ -70,7 +68,7 @@ public class UserController extends ControllersReturnRequests {
   }
 
   @PatchMapping("/user/{id}")
-  public ResponseEntity patchUser(@PathVariable String id, @RequestBody String  approve)
+  public ResponseEntity patchUser(@PathVariable String id, @RequestBody String approve)
       throws DontExistsObjectInDatabaseException {
     return returnOkRequest();
   }

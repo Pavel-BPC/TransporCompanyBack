@@ -20,16 +20,6 @@ public class UserPrincipalDetailsService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-
-//    @Override
-//    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-//        User user = this.userRepository.findByLogin(s);
-//        UserPrincipal userPrincipal = new UserPrincipal(user);
-//
-//        return userPrincipal;
-//    }
-
-
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         User loggedInUser = findByLogin(login)
@@ -38,13 +28,11 @@ public class UserPrincipalDetailsService implements UserDetailsService {
         List<SimpleGrantedAuthority> simpleGrantedAuthorities = Stream.of(loggedInUser.getRoles())
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());
-        System.out.println(loggedInUser.getLogin());
-        System.out.println(loggedInUser.getPassword());
         return new org.springframework.security.core.userdetails.User(loggedInUser.getLogin(),
             loggedInUser.getPassword(), simpleGrantedAuthorities);
     }
 
-    public Optional<User> findByLogin(String login) {
+    private Optional<User> findByLogin(String login) {
         return Optional.ofNullable(userRepository.findByLogin(login));
     }
 }

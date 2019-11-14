@@ -1,7 +1,6 @@
 package com.blinets.config.security;
 
 import com.blinets.services.security.UserPrincipalDetailsService;
-import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,22 +13,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+  private final MyBasicAuthenticationEntryPoint authenticationEntryPoint;
   private UserPrincipalDetailsService userPrincipalDetailsService;
 
-
   @Autowired
-  private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
-
-  public WebSecurityConfig(UserPrincipalDetailsService userPrincipalDetailsService) {
+  public WebSecurityConfig(UserPrincipalDetailsService userPrincipalDetailsService,
+      MyBasicAuthenticationEntryPoint authenticationEntryPoint) {
     this.userPrincipalDetailsService = userPrincipalDetailsService;
+    this.authenticationEntryPoint = authenticationEntryPoint;
   }
 
   @Override
@@ -47,10 +43,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .csrf().disable()
         .cors().and()
         .authorizeRequests()
-//        .antMatchers("/swagger-ui.html").permitAll()
-        .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-          .antMatchers("/login").authenticated()
-        .antMatchers("/users","/user/**").hasRole("ADMIN")
+        .antMatchers(HttpMethod.OPTIONS, "/**", "/swagger-ui.html").permitAll()
+        .antMatchers("/login").authenticated()
+        .antMatchers("/point", "/user/**").hasRole("ADMIN")
         .antMatchers("/userseeee").hasRole("USER")
 //        .antMatchers("/management/**").hasAnyRole("ADMIN", "MANAGER")
 //        .antMatchers("/api/public/test1").hasAuthority("ACCESS_TEST1")
@@ -75,15 +70,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
 
-//  @Bean
-//  public CorsConfigurationSource corsConfigurationSource() {
-//    final CorsConfiguration configuration = new CorsConfiguration();
-//    configuration.setAllowedOrigins(ImmutableList.of("*"));
-//    configuration.setAllowedMethods(ImmutableList.of("HEAD",
-//        "GET", "POST", "PUT", "DELETE", "PATCH"));
-//    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//    source.registerCorsConfiguration("/**", configuration);
-//    return source;
-//  }
 
 }
