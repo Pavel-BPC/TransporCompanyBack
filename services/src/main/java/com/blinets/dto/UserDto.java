@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
 
@@ -17,9 +17,14 @@ public class UserDto {
 
   private String password;
 
-  private String email;
-
-  private String phoneNumber;
+  private String role;
 
 
+
+  public UserDto(String toString, String admin, String s, String user) {
+    idUser = toString;
+    login = admin;
+    password = s;
+    role = user;
+  }
 }

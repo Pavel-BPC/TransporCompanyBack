@@ -1,12 +1,12 @@
 package com.blinets.controller;
 
-import com.blinets.config.security.dto.LoginRequest;
 import com.blinets.configuration.ControllersReturnRequests;
 import com.blinets.dto.UserDto;
 import com.blinets.entity.User;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
 import com.blinets.services.CrudService;
+import java.util.Arrays;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -38,9 +37,9 @@ public class UserController extends ControllersReturnRequests {
   }
 
   @GetMapping("/login")
-  public User login(@RequestHeader HttpHeaders user){
+  public UserDto login(@RequestHeader HttpHeaders user){
     System.out.println(user);
-    User admin = new User(UUID.randomUUID().toString(),"admin","$2a$10$tnWLPrQ41NlMvb5JFKn5p.e/vBy.l.vv8iD34pMDlMGTVoosXfoAa","USER","ACCESS_TEST1,ACCESS_TEST2");
+    UserDto admin = new UserDto(UUID.randomUUID().toString(),"admin","$2a$10$tnWLPrQ41NlMvb5JFKn5p.e/vBy.l.vv8iD34pMDlMGTVoosXfoAa","USER");
 
     return admin;
   }

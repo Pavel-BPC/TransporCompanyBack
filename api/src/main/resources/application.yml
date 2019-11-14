@@ -25,6 +25,8 @@ spring:
 logging:
   level:
     org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: ERROR
+    org:
+      springframework: TRACE
 
 security:
   require-ssl: true
