@@ -1,12 +1,10 @@
 package com.blinets.controller;
 
 import com.blinets.configuration.ControllersReturnRequests;
-import com.blinets.dto.PointDto;
 import com.blinets.dto.UserDto;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
 import com.blinets.services.CrudService;
-import java.util.Arrays;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -37,23 +35,12 @@ public class UserController extends ControllersReturnRequests {
   }
 
   @GetMapping("/login")
-  public UserDto login(@RequestHeader HttpHeaders user) {
+  public ResponseEntity<UserDto> login(@RequestHeader HttpHeaders user) {
     System.out.println(user);
     UserDto admin = new UserDto(UUID.randomUUID().toString(), "admin",
         "$2a$10$tnWLPrQ41NlMvb5JFKn5p.e/vBy.l.vv8iD34pMDlMGTVoosXfoAa", "USER");
 
-    return admin;
-  }
-
-  @GetMapping("/points")
-  public ResponseEntity<java.util.List<PointDto>> getUsers() {
-    PointDto point1 = new PointDto();
-    PointDto point2 = new PointDto();
-    point1.setId("1");
-    point2.setId("2");
-    point2.setName_point("fds");
-    point1.setName_point("fgggggg");
-    return new ResponseEntity<>( Arrays.asList(point1,point2), HttpStatus.OK);
+    return new ResponseEntity<>(admin,HttpStatus.OK);
   }
 
   @PostMapping("/user")

@@ -1,5 +1,7 @@
 package com.blinets.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,11 +16,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PointDto {
 
-  @Id
-  @Column(name = "id_point")
-  private String id;
+  @JsonProperty("id")
+  private String idPoint;
 
-  @Column
-  private String name_point;
+  @JsonProperty("name_point")
+  private String namePoint;
 
 }

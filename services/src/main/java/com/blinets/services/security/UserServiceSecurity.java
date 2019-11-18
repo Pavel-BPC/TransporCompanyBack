@@ -1,4 +1,4 @@
-package com.blinets.services.imp;
+package com.blinets.services.security;
 
 import com.blinets.entity.User;
 import com.blinets.repository.UserRepository;
