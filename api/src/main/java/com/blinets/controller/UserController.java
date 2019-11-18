@@ -5,7 +5,7 @@ import com.blinets.dto.UserDto;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
 import com.blinets.services.CrudService;
-import java.util.UUID;
+import com.blinets.services.security.UserPrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,19 +28,19 @@ public class UserController extends ControllersReturnRequests {
 
 
   private final CrudService<UserDto> userServices;
+  private final UserPrincipalDetailsService userPrincipalDetailsService;
 
   @Autowired
-  public UserController(CrudService<UserDto> userServices) {
+  public UserController(CrudService<UserDto> userServices,
+      UserPrincipalDetailsService userPrincipalDetailsService) {
     this.userServices = userServices;
+    this.userPrincipalDetailsService = userPrincipalDetailsService;
   }
 
   @GetMapping("/login")
-  public ResponseEntity<UserDto> login(@RequestHeader HttpHeaders user) {
-    System.out.println(user);
-    UserDto admin = new UserDto(UUID.randomUUID().toString(), "admin",
-        "$2a$10$tnWLPrQ41NlMvb5JFKn5p.e/vBy.l.vv8iD34pMDlMGTVoosXfoAa", "USER");
-
-    return new ResponseEntity<>(admin,HttpStatus.OK);
+  public ResponseEntity<org.springframework.security.core.userdetails.UserDetails> login(@RequestHeader HttpHeaders user) {
+    //TODO
+    return new ResponseEntity<>(userPrincipalDetailsService.loadUserByUsername("admin"),HttpStatus.OK);
   }
 
   @PostMapping("/user")
@@ -53,12 +53,14 @@ public class UserController extends ControllersReturnRequests {
 
   @DeleteMapping("/user/{id}")
   public ResponseEntity deleteUser(@PathVariable String id) {
+    userServices.remove(id);
     return returnOkRequest();
   }
 
   @PutMapping("/user/{id}")
   public ResponseEntity editUser(@PathVariable String id, @RequestBody UserDto userDto)
       throws DontExistsObjectInDatabaseException {
+    userServices.update(userDto);
     return returnOkRequest();
   }
 

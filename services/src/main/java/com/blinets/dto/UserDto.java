@@ -1,31 +1,23 @@
 package com.blinets.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-//@NoArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
 
+  @JsonProperty("id")
   private String idUser;
-
+  @JsonProperty("full_name")
   private String fullName;
-
   private String login;
-
   private String password;
-
   private String role;
+  @JsonProperty("phone_Number")
+  private String phoneNumber;
 
-  public UserDto() {
-  }
-
-  public UserDto(String toString, String admin, String s, String user) {
-    idUser = toString;
-    login = admin;
-    password = s;
-    role = user;
-  }
 }
