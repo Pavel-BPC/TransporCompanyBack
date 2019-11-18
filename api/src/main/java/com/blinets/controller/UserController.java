@@ -6,9 +6,11 @@ import com.blinets.dto.UserDto;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
 import com.blinets.services.CrudService;
+import java.util.Arrays;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -51,7 +53,7 @@ public class UserController extends ControllersReturnRequests {
     point2.setId("2");
     point2.setName_point("fds");
     point1.setName_point("fgggggg");
-    return new ResponseEntity<>( Arrays.asList(point1,point2),HttpStatus.OK);
+    return new ResponseEntity<>( Arrays.asList(point1,point2), HttpStatus.OK);
   }
 
   @PostMapping("/user")
