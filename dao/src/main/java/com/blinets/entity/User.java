@@ -23,7 +23,9 @@ public class User implements Serializable {
   @Column(name = "id_user")
   private String idUser;
   @Column
-  private String fullName;
+  private String name;
+  @Column
+  private String lastName;
   @Column
   private String login;
   @Column

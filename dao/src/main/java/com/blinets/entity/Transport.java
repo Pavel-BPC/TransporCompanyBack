@@ -28,10 +28,13 @@ public class Transport  {
   private String nameTransport;
 
   @Column
-  private String speed;
+  private Integer speed;
 
   @Column
   private Integer maxWeight;
+
+  @Column
+  private Integer tariffPlan;
 
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "id_company", nullable = false)

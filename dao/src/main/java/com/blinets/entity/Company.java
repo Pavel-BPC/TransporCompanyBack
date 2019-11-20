@@ -27,6 +27,10 @@ public class Company {
   @Column
   private String nameCompany;
 
+  String Phone;
+  String email;
+  String descrkiprion;
+
 //  private List<Transport> transports;
 
 }

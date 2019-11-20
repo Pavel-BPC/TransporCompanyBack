@@ -42,7 +42,7 @@ public class UserPrincipalDetailsService implements UserDetailsService {
             loggedInUser.getPassword(), simpleGrantedAuthorities);
     }
 
-    private Optional<User> findByLogin(String login) {
+    public Optional<User> findByLogin(String login) {
         return Optional.ofNullable(userRepository.findByLogin(login));
     }
 }

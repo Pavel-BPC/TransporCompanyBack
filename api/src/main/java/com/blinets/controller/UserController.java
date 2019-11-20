@@ -38,9 +38,9 @@ public class UserController extends ControllersReturnRequests {
   }
 
   @GetMapping("/login")
-  public ResponseEntity<org.springframework.security.core.userdetails.UserDetails> login(@RequestHeader HttpHeaders user) {
+  public ResponseEntity<java.util.Optional<com.blinets.entity.User>> login(@RequestHeader HttpHeaders user) {
     //TODO
-    return new ResponseEntity<>(userPrincipalDetailsService.loadUserByUsername("admin"),HttpStatus.OK);
+    return new ResponseEntity<>(userPrincipalDetailsService.findByLogin("admin"),HttpStatus.OK);
   }
 
   @PostMapping("/user")

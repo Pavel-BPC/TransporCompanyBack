@@ -56,10 +56,14 @@ public class UserServices implements CrudService<UserDto> {
   public void update(UserDto userDto) throws DontExistsObjectInDatabaseException {
     User byIdUser = userRepository.findByIdUser(userDto.getIdUser());
 
-
+    //TODO
     if (StringUtils.isNotEmpty(userDto.getFullName())) {
-      byIdUser.setFullName(userDto.getFullName());
+      byIdUser.setName(userDto.getFullName());
     }
+    if (StringUtils.isNotEmpty(userDto.getFullName())) {
+      byIdUser.setName(userDto.getFullName());
+    }
+    //TODO
     if (StringUtils.isNotEmpty(userDto.getPhoneNumber())) {
       byIdUser.setPhoneNumber(userDto.getPhoneNumber());
     }
