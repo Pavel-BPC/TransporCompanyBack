@@ -1,5 +1,6 @@
 package com.blinets.entity;
 
+import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,11 +35,5 @@ public class Maps {
   @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "id_route", nullable = false)
   private Route idRoute;
-
-  @Column
-  private Integer distance;
-
-  @Column
-  private Integer cost;
 
 }

@@ -1,5 +1,6 @@
 package com.blinets.entity;
 
+import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,9 +25,6 @@ public class Route {
   @Column(name = "id_route")
   private String idRoute;
 
-  @Column
-  private String nameRoute;
-
   @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "start_id_point_route", nullable = false)
   private Point startIdPointOfRoute;
@@ -37,6 +35,12 @@ public class Route {
 
   @Column
   private String nextIdRoute;
+  @Column
+  private Integer cost;
+  @Column
+  private LocalDate time;
+  @Column
+  private String distance;
 
   @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "id_transport", nullable = false)
