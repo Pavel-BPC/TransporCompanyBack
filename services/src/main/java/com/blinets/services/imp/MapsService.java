@@ -29,7 +29,7 @@ public class MapsService implements CrudService<MapsDto> {
   @Autowired
   private TransportRepository transportRepository;
   @Autowired
-  private RouteRepository  routeRepository;
+  private RouteRepository routeRepository;
   @Autowired
   private MapsRepository mapsRepository;
 
@@ -39,9 +39,6 @@ public class MapsService implements CrudService<MapsDto> {
     Maps maps = new Maps();
 
     maps.setIdMaps(UUID.randomUUID().toString());
-//    maps.setCost(mapsDto.getCost());
-//    maps.setTime(mapsDto.getTime());
-//    maps.setDistance(mapsDto.getDistance());
 
     List<RouteDto> routeDtos = mapsDto.getRouteDtos();
     if (routeDtos.size() % 2 != 0) {
@@ -53,27 +50,38 @@ public class MapsService implements CrudService<MapsDto> {
 
     Point byIdPointStart = pointRepository.findByIdPoint(routeDtoFirst.getPointDtoStart());
     Point byIdPointSecond = pointRepository.findByIdPoint(routeDtoFirst.getPointDtoEnd());
+    Point byIdPointLast = pointRepository.findByIdPoint(routeDtoLast.getPointDtoEnd());
 
     maps.setStartIdPointOfRoute(byIdPointStart);
-    maps.setEndIdPointOfRoute(pointRepository.findByIdPoint(routeDtoLast.getPointDtoEnd()));
-
-
+    maps.setEndIdPointOfRoute(byIdPointLast);
 
     Route routeMedium = new Route();
     Route routeFirst = new Route();
     routeFirst.setIdRoute(UUID.randomUUID().toString());
     routeFirst.setStartIdPointOfRoute(byIdPointStart);
     routeFirst.setEndIdPointOfRoute(byIdPointSecond);
-    routeFirst.setIdTransport(transportRepository.findByIdTransport(routeDtoFirst.getIdTransport()));
+    routeFirst
+        .setIdTransport(transportRepository.findByIdTransport(routeDtoFirst.getIdTransport()));
+
+    routeFirst.setCost(routeDtoFirst.getCost());
+    routeFirst.setTime(routeDtoFirst.getTime());
+    routeFirst.setDistance(routeDtoFirst.getDistance());
+
     routeFirst.setIdRoute(null);
 
     for (int i = 1; i < routeDtos.size() - 1; i++) {
       RouteDto routeDto = routeDtos.get(i);
 
       routeMedium.setIdRoute(UUID.randomUUID().toString());
-      routeMedium.setStartIdPointOfRoute(pointRepository.findByIdPoint(routeDto.getPointDtoStart()));
+      routeMedium
+          .setStartIdPointOfRoute(pointRepository.findByIdPoint(routeDto.getPointDtoStart()));
       routeMedium.setEndIdPointOfRoute(pointRepository.findByIdPoint(routeDto.getPointDtoEnd()));
       routeMedium.setIdTransport(transportRepository.findByIdTransport(routeDto.getIdTransport()));
+
+      routeMedium.setCost(routeDto.getCost());
+      routeMedium.setTime(routeDto.getTime());
+      routeMedium.setDistance(routeDto.getDistance());
+
       routeMedium.setIdRoute(null);
 
       routeFirst.setNextIdRoute(routeMedium.getIdRoute());
@@ -100,7 +108,7 @@ public class MapsService implements CrudService<MapsDto> {
 
   @Override
   public void remove(String id) {
-
+    mapsRepository.deleteById(id);
   }
 
   @Override

@@ -1,13 +1,8 @@
 package com.blinets.entity;
 
-import java.util.List;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,14 +18,14 @@ public class Company {
   @Id
   @Column(name = "id_company")
   private String idCompany;
-
   @Column
   private String nameCompany;
+  @Column
+  private String phoneCompany;
+  @Column
+  private String emailCompany;
+  @Column
+  private String description;
 
-  String Phone;
-  String email;
-  String descrkiprion;
-
-//  private List<Transport> transports;
 
 }

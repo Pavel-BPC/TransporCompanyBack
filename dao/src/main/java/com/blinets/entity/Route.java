@@ -40,7 +40,7 @@ public class Route {
   @Column
   private LocalDate time;
   @Column
-  private String distance;
+  private Integer distance;
 
   @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "id_transport", nullable = false)
