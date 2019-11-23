@@ -8,8 +8,10 @@ import com.blinets.mapper.PointMapper;
 import com.blinets.mapper.UserMapper;
 import com.blinets.repository.PointRepository;
 import com.blinets.services.CrudService;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import javax.annotation.PostConstruct;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,5 +54,17 @@ public class PointServer implements CrudService<PointDto> {
     Point byIdPoint = pointRepository.findByIdPoint(point.getIdPoint());
     byIdPoint.setNamePoint(point.getNamePoint());
     pointRepository.save(byIdPoint);
+  }
+
+  @PostConstruct
+  public void init(){
+    pointRepository.saveAll(Arrays.asList(
+        new Point(UUID.randomUUID().toString(),"Клецк"),
+        new Point(UUID.randomUUID().toString(),"Солигорск"),
+        new Point(UUID.randomUUID().toString(),"Минск"),
+        new Point(UUID.randomUUID().toString(),"Гродно"),
+        new Point(UUID.randomUUID().toString(),"Орша"),
+        new Point(UUID.randomUUID().toString(),"Речица")
+            ));
   }
 }
