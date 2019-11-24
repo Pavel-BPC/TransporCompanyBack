@@ -12,20 +12,24 @@ import java.util.UUID;
 import lombok.extern.log4j.Log4j2;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Log4j2
 @Service
 public class UserServices implements CrudService<UserDto> {
 
   private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
   private UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
   @Autowired
-  public UserServices(UserRepository userRepository) {
+  public UserServices(UserRepository userRepository,
+      PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
   @Override
@@ -33,6 +37,7 @@ public class UserServices implements CrudService<UserDto> {
       throws DontExistsObjectInDatabaseException, UniqueObjectException {
     User user = userMapper.dtoToUser(userDto);
     user.setIdUser(UUID.randomUUID().toString());
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
     userRepository.save(user);
     return user.getIdUser();
   }
@@ -57,11 +62,11 @@ public class UserServices implements CrudService<UserDto> {
     User byIdUser = userRepository.findByIdUser(userDto.getIdUser());
 
     //TODO
-    if (StringUtils.isNotEmpty(userDto.getFullName())) {
-      byIdUser.setName(userDto.getFullName());
+    if (StringUtils.isNotEmpty(userDto.getName())) {
+      byIdUser.setName(userDto.getName());
     }
-    if (StringUtils.isNotEmpty(userDto.getFullName())) {
-      byIdUser.setName(userDto.getFullName());
+    if (StringUtils.isNotEmpty(userDto.getLastName())) {
+      byIdUser.setLastName(userDto.getLastName());
     }
     //TODO
     if (StringUtils.isNotEmpty(userDto.getPhoneNumber())) {

@@ -38,11 +38,11 @@ public class UserPrincipalDetailsService implements UserDetailsService {
         List<SimpleGrantedAuthority> simpleGrantedAuthorities = Stream.of(loggedInUser.getRoles())
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());
-        return new org.springframework.security.core.userdetails.User(loggedInUser.getLogin(),
+        return new org.springframework.security.core.userdetails.User(loggedInUser.getLoginEmail(),
             loggedInUser.getPassword(), simpleGrantedAuthorities);
     }
 
     public Optional<User> findByLogin(String login) {
-        return Optional.ofNullable(userRepository.findByLogin(login));
+        return Optional.ofNullable(userRepository.findByLoginEmail(login));
     }
 }

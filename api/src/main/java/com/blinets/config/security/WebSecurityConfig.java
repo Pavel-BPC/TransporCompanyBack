@@ -1,5 +1,6 @@
 package com.blinets.config.security;
 
+import com.blinets.dto.ROLE;
 import com.blinets.services.security.UserPrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -44,10 +45,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .cors().and()
         .authorizeRequests()
         .antMatchers(HttpMethod.OPTIONS, "/**", "/swagger-ui.html").permitAll()
-        .antMatchers("/login").authenticated()
-        .antMatchers("/points", "/user/**").hasRole("ADMIN")
-        .antMatchers("/userseeee").hasRole("USER")
-//        .antMatchers("/management/**").hasAnyRole("ADMIN", "MANAGER")
+        .antMatchers(HttpMethod.OPTIONS,"/login").authenticated()
+//        .antMatchers("/points").hasRole(ROLE.ADMIN.toString())
+//        .antMatchers("/userseeee").hasRole("USER")
+//        .antMatchers("/management/**").hasAnyRole("ADMIN", "MA  NAGER")
 //        .antMatchers("/api/public/test1").hasAuthority("ACCESS_TEST1")
 //        .antMatchers("/api/public/test2").hasAuthority("ACCESS_TEST2")
 //        .antMatchers("/api/public/users").hasRole("ADMIN")

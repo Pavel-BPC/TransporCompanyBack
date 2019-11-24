@@ -2,10 +2,12 @@ package com.blinets.controller;
 
 import com.blinets.configuration.ControllersReturnRequests;
 import com.blinets.dto.PointDto;
+import com.blinets.dto.ROLE;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
 import com.blinets.services.CrudService;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
+@RolesAllowed("ADMIN")
 public class PointController extends ControllersReturnRequests {
 
   private final CrudService<PointDto> pointServer;

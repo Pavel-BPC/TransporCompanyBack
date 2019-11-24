@@ -10,7 +10,7 @@ import org.mapstruct.Mappings;
 @Mapper
 public interface TransportMapper {
 
-  @Mappings({@Mapping(target = "idCompany", source = "transport.company.idCompany")})
+  @Mappings({@Mapping(target = "idCompany", source = "transport.company.nameCompany")})
   TransportDto transportToDto(Transport transport);
 
   @Mappings({@Mapping(target = "company.idCompany", source = "transportDto.idCompany")})

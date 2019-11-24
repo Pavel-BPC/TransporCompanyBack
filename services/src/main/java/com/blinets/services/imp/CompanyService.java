@@ -8,6 +8,7 @@ import com.blinets.mapper.CompanyMapper;
 import com.blinets.repository.CompanyRepository;
 import com.blinets.services.CrudService;
 import java.util.List;
+import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class CompanyService implements CrudService<CompanyDto> {
   @Override
   public String create(CompanyDto companyDto)
       throws DontExistsObjectInDatabaseException, UniqueObjectException {
+    companyDto.setIdCompany(UUID.randomUUID().toString());
     return companyRepository.save(companyMapper.companyDtoToCompany(companyDto)).getIdCompany();
   }
 

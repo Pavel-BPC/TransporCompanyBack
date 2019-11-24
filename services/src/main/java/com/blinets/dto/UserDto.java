@@ -12,12 +12,16 @@ public class UserDto {
 
   @JsonProperty("id")
   private String idUser;
-  @JsonProperty("full_name")
-  private String fullName;
-  private String login;
+  @JsonProperty("first_name")
+  private String name;
+  @JsonProperty("last_name")
+  private String lastName;
+  @JsonProperty("email")
+  private String loginEmail;
   private String password;
-  private String role;
-  @JsonProperty("phone_Number")
+  @JsonProperty("role")
+  private String roles;
+  @JsonProperty("phone_number")
   private String phoneNumber;
 
 }

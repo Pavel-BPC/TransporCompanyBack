@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "user_s")
 public class User implements Serializable {
-
   @Id
   @Column(name = "id_user")
   private String idUser;
@@ -27,25 +26,26 @@ public class User implements Serializable {
   @Column
   private String lastName;
   @Column
-  private String login;
+  private String loginEmail;
   @Column
   private String password;
   @Column
   private String phoneNumber;
 
+  @Column
+  private String roles;
+
   private int active;
 
-  @Column
-  private String roles = "";
 
-  private String permissions = "";
+  private String permissions;
 
   public User() {
   }
 
   public User(String idUser, String login, String password, String roles, String permissions) {
     this.idUser = idUser;
-    this.login = login;
+    this.loginEmail = login;
     this.password = password;
     this.roles = roles;
     this.permissions = permissions;
