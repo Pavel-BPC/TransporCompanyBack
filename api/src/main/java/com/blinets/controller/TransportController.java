@@ -32,7 +32,7 @@ public class TransportController extends ControllersReturnRequests {
     return new ResponseEntity<>(transportService.get(id), HttpStatus.OK);
   }
 
-  @GetMapping("/transports")
+  @GetMapping("/transport")
   public ResponseEntity<java.util.List<TransportDto>> getList(){
     return new ResponseEntity<>(transportService.get(), HttpStatus.OK);
   }

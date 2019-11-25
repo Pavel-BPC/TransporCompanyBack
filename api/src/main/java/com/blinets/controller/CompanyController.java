@@ -29,7 +29,7 @@ public class CompanyController extends ControllersReturnRequests {
     this.companyService = companyService;
   }
 
-  @GetMapping("/companies")
+  @GetMapping("/company")
   public ResponseEntity<List<CompanyDto>> getCompany() {
     return new ResponseEntity<>(companyService.get(), HttpStatus.OK);
   }

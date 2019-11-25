@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-@RolesAllowed("ADMIN")
+//@RolesAllowed("ADMIN")
 public class PointController extends ControllersReturnRequests {
 
   private final CrudService<PointDto> pointServer;
@@ -32,7 +32,7 @@ public class PointController extends ControllersReturnRequests {
   }
 
 
-  @GetMapping("/points")
+  @GetMapping("/point")
   public ResponseEntity<List<PointDto>> getUsers() {
     return new ResponseEntity<>(pointServer.get(), HttpStatus.OK);
   }

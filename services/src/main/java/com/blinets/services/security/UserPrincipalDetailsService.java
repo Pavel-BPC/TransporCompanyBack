@@ -31,15 +31,11 @@ public class UserPrincipalDetailsService implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        User loggedInUser = findByLogin(login)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found: " + login));
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        User user = this.userRepository.findByLoginEmail(s);
+        UserPrincipal userPrincipal = new UserPrincipal(user);
 
-        List<SimpleGrantedAuthority> simpleGrantedAuthorities = Stream.of(loggedInUser.getRoles())
-            .map(SimpleGrantedAuthority::new)
-            .collect(Collectors.toList());
-        return new org.springframework.security.core.userdetails.User(loggedInUser.getLoginEmail(),
-            loggedInUser.getPassword(), simpleGrantedAuthorities);
+        return userPrincipal;
     }
 
     public Optional<User> findByLogin(String login) {

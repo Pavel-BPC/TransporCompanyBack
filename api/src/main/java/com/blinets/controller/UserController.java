@@ -2,14 +2,15 @@ package com.blinets.controller;
 
 import com.blinets.configuration.ControllersReturnRequests;
 import com.blinets.dto.UserDto;
+import com.blinets.entity.User;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
 import com.blinets.services.CrudService;
 import com.blinets.services.security.UserPrincipalDetailsService;
+import java.util.Optional;
 import javax.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -40,11 +41,18 @@ public class UserController extends ControllersReturnRequests {
     this.userPrincipalDetailsService = userPrincipalDetailsService;
   }
 
-  @GetMapping("/login")
-  public ResponseEntity<java.util.Optional<com.blinets.entity.User>> login(@RequestHeader HttpHeaders user) {
+  @GetMapping("/user/login")
+  public ResponseEntity<Optional<User>> login(@RequestHeader HttpHeaders user) {
     //TODO
     System.out.println();
-    return new ResponseEntity<>(userPrincipalDetailsService.findByLogin("admin"),HttpStatus.OK);
+    return new ResponseEntity<>(userPrincipalDetailsService.findByLogin("admin"), HttpStatus.OK);
+  }
+
+ @GetMapping("/user")
+  public ResponseEntity<java.util.List<UserDto>> getUser() {
+    //TODO
+    System.out.println();
+    return new ResponseEntity<>(userServices.get(),HttpStatus.OK);
   }
 
   @PostMapping("/user")
