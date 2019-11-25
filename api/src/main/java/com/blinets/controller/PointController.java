@@ -2,12 +2,12 @@ package com.blinets.controller;
 
 import com.blinets.configuration.ControllersReturnRequests;
 import com.blinets.dto.PointDto;
-import com.blinets.dto.ROLE;
+import com.blinets.entity.Point;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
-import com.blinets.services.CrudService;
+import java.util.Arrays;
 import java.util.List;
-import javax.annotation.security.RolesAllowed;
+import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,40 +24,39 @@ import org.springframework.web.bind.annotation.RestController;
 //@RolesAllowed("ADMIN")
 public class PointController extends ControllersReturnRequests {
 
-  private final CrudService<PointDto> pointServer;
-
-  public PointController(
-      CrudService<PointDto> pointServer) {
-    this.pointServer = pointServer;
-  }
-
 
   @GetMapping("/point")
-  public ResponseEntity<List<PointDto>> getUsers() {
-    return new ResponseEntity<>(pointServer.get(), HttpStatus.OK);
+  public ResponseEntity<List<Point>> getUsers() {
+    List<Point> points = Arrays.asList(
+        new Point(UUID.randomUUID().toString(), "Клецк"),
+        new Point(UUID.randomUUID().toString(), "Солигорск"),
+        new Point(UUID.randomUUID().toString(), "Минск"),
+        new Point(UUID.randomUUID().toString(), "Гродно"),
+        new Point(UUID.randomUUID().toString(), "Орша"),
+        new Point(UUID.randomUUID().toString(), "Речица")
+    );
+    return new ResponseEntity<>(points, HttpStatus.OK);
   }
 
   @GetMapping("/point/{id}")
-  public ResponseEntity<PointDto> getUsers(@PathVariable String id) {
-    return new ResponseEntity<>(pointServer.get(id), HttpStatus.OK);
+  public ResponseEntity<Point> getUsers(@PathVariable String id) {
+    return new ResponseEntity<>(new Point(UUID.randomUUID().toString(), "Клецк"), HttpStatus.OK);
   }
 
   @PostMapping("/point")
-  public ResponseEntity<String> createPoint(@RequestBody PointDto pointDto)
+  public ResponseEntity createPoint(@RequestBody PointDto pointDto)
       throws UniqueObjectException, DontExistsObjectInDatabaseException {
-    return new ResponseEntity<>(pointServer.create(pointDto), HttpStatus.OK);
+    return returnOkRequest();
   }
 
   @DeleteMapping("/point/{id}")
   public ResponseEntity delete(@PathVariable String id) {
-    pointServer.remove(id);
     return returnOkRequest();
   }
 
   @PatchMapping("/point")
   public ResponseEntity update(@RequestBody PointDto pointDto)
       throws DontExistsObjectInDatabaseException {
-    pointServer.update(pointDto);
     return returnOkRequest();
   }
 

@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class Item
-{
+public abstract class Item {
+
   private String name;
   private double weight;
   private double price;

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransportDto {
+
   @JsonProperty("id")
   private String idTransport;
   @JsonProperty("id_company")
