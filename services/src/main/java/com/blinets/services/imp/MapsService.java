@@ -13,26 +13,37 @@ import com.blinets.repository.PointRepository;
 import com.blinets.repository.RouteRepository;
 import com.blinets.repository.TransportRepository;
 import com.blinets.services.CrudService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MapsService implements CrudService<MapsDto> {
 
-  @Autowired
-  private PointServer pointServer;
+  private final PointServer pointServer;
+
+  private final PointRepository pointRepository;
+  private final TransportRepository transportRepository;
+  private final RouteRepository routeRepository;
+  private final MapsRepository mapsRepository;
 
   @Autowired
-  private PointRepository pointRepository;
-  @Autowired
-  private TransportRepository transportRepository;
-  @Autowired
-  private RouteRepository routeRepository;
-  @Autowired
-  private MapsRepository mapsRepository;
+  public MapsService(PointServer pointServer, PointRepository pointRepository,
+      TransportRepository transportRepository, RouteRepository routeRepository,
+      MapsRepository mapsRepository) {
+    this.pointServer = pointServer;
+    this.pointRepository = pointRepository;
+    this.transportRepository = transportRepository;
+    this.routeRepository = routeRepository;
+    this.mapsRepository = mapsRepository;
+  }
 
   @Override
   public String create(MapsDto mapsDto)
@@ -117,4 +128,32 @@ public class MapsService implements CrudService<MapsDto> {
   public void update(MapsDto object) throws DontExistsObjectInDatabaseException {
 
   }
+
+//  @PostConstruct
+//  void init() throws IOException, UniqueObjectException, DontExistsObjectInDatabaseException {
+//    MapsDto mapsDto = new ObjectMapper().readValue(
+//        "{\n"
+//            + "\"routeDtos\":  [\n"
+//            + "  {\n"
+//            + "  \"start_point\": \"45b09dec-323e-4e70-b7f9-ce877efb1616\",\n"
+//            + "  \"end_point\": \"cbd29f42-a5cc-4e9c-a906-8b2e842244db\",\n"
+//            + "  \"transport\": \"a3ba172f-d772-487e-a820-5e4595e96be5\",\n"
+//            + "  \"distance\": \"999\",\n"
+//            + "  \"cost\": \"999\",\n"
+//            + "  \"time\": \"2019-11-28\"\n"
+//            + "  },\n"
+//            + "   {\n"
+//            + "  \"start_point\": \"cbd29f42-a5cc-4e9c-a906-8b2e842244db\",\n"
+//            + "  \"end_point\": \"5db17bc6-1bd7-4a0b-b043-604ca718e06f\",\n"
+//            + "  \"transport\": \"a3ba172f-d772-487e-a820-5e4595e96be5\",\n"
+//            + "  \"distance\": \"100\",\n"
+//            + "  \"cost\": \"100\",\n"
+//            + "  \"time\": \"2019-11-28\"\n"
+//            + "  }\n"
+//            + "] \n"
+//            + "}"
+//    ,MapsDto.class);
+//
+//    create(mapsDto);
+//  }
 }
