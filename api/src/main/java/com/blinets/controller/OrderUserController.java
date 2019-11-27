@@ -3,6 +3,8 @@ package com.blinets.controller;
 import com.blinets.configuration.ControllersReturnRequests;
 import com.blinets.dto.PointDto;
 import com.blinets.dto.UserOrderDto;
+import com.blinets.dto.UserOrderProductDto;
+import com.blinets.entity.UserOrder;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
 import java.time.LocalDate;
@@ -42,7 +44,7 @@ public class OrderUserController extends ControllersReturnRequests {
   }
 
   @PostMapping("/userOrder")
-  public ResponseEntity createUserOrder(@RequestBody PointDto pointDto)
+  public ResponseEntity createUserOrder(@RequestBody UserOrderProductDto userOrderProductDto )
       throws UniqueObjectException, DontExistsObjectInDatabaseException {
     return returnOkRequest();
   }
@@ -53,7 +55,7 @@ public class OrderUserController extends ControllersReturnRequests {
   }
 
   @PatchMapping("/userOrder")
-  public ResponseEntity updateUserOrder(@RequestBody PointDto pointDto)
+  public ResponseEntity updateUserOrder(@RequestBody UserOrder userOrder )
       throws DontExistsObjectInDatabaseException {
     return returnOkRequest();
   }
