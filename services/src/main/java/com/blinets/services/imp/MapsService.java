@@ -13,6 +13,7 @@ import com.blinets.repository.PointRepository;
 import com.blinets.repository.RouteRepository;
 import com.blinets.repository.TransportRepository;
 import com.blinets.services.CrudService;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +41,13 @@ public class MapsService implements CrudService<MapsDto> {
 
     maps.setIdMaps(UUID.randomUUID().toString());
 
-    List<RouteDto> routeDtos = mapsDto.getRouteDtos();
-    if (routeDtos.size() % 2 != 0) {
+    List<RouteDto> routeDtoList = mapsDto.getRouteDtos();
+    if (routeDtoList.size() % 2 != 0) {
       throw new WrongNumberPointsInCards();
     }
 
-    RouteDto routeDtoFirst = routeDtos.get(0);
-    RouteDto routeDtoLast = routeDtos.get(routeDtos.size() - 1);
+    RouteDto routeDtoFirst = routeDtoList.get(0);
+    RouteDto routeDtoLast = routeDtoList.get(routeDtoList.size() - 1);
 
     Point byIdPointStart = pointRepository.findByIdPoint(routeDtoFirst.getPointDtoStart());
     Point byIdPointSecond = pointRepository.findByIdPoint(routeDtoFirst.getPointDtoEnd());
@@ -64,13 +65,13 @@ public class MapsService implements CrudService<MapsDto> {
         .setIdTransport(transportRepository.findByIdTransport(routeDtoFirst.getIdTransport()));
 
     routeFirst.setCost(routeDtoFirst.getCost());
-    routeFirst.setTime(routeDtoFirst.getTime());
+    routeFirst.setTime(LocalDate.parse(routeDtoFirst.getTime()));
     routeFirst.setDistance(routeDtoFirst.getDistance());
 
-    routeFirst.setIdRoute(null);
+    routeFirst.setNextIdRoute(null);
 
-    for (int i = 1; i < routeDtos.size() - 1; i++) {
-      RouteDto routeDto = routeDtos.get(i);
+    for (int i = 1; i <= routeDtoList.size() - 1; i++) {
+      RouteDto routeDto = routeDtoList.get(i);
 
       routeMedium.setIdRoute(UUID.randomUUID().toString());
       routeMedium
@@ -79,10 +80,10 @@ public class MapsService implements CrudService<MapsDto> {
       routeMedium.setIdTransport(transportRepository.findByIdTransport(routeDto.getIdTransport()));
 
       routeMedium.setCost(routeDto.getCost());
-      routeMedium.setTime(routeDto.getTime());
+      routeMedium.setTime(LocalDate.parse(routeDto.getTime()));
       routeMedium.setDistance(routeDto.getDistance());
 
-      routeMedium.setIdRoute(null);
+      routeMedium.setNextIdRoute(null);
 
       routeFirst.setNextIdRoute(routeMedium.getIdRoute());
 
@@ -90,6 +91,7 @@ public class MapsService implements CrudService<MapsDto> {
       routeFirst = routeMedium;
 
     }
+    routeRepository.save(routeMedium);
 
     maps.setIdRoute(routeFirst);
     mapsRepository.save(maps);

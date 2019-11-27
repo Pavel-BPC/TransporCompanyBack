@@ -21,6 +21,7 @@ public class UserOrderProductDto {
   private String name;
   @JsonProperty("type_product")
   private String typeProduct;
-
+  @JsonProperty("id_user")
+  private String idUser;
 
 }
