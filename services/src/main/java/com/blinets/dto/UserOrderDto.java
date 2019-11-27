@@ -17,8 +17,6 @@ public class UserOrderDto {
   private Integer price;
   @JsonProperty("status")
   private String status;
-  @JsonProperty("full_time")
-  private LocalDate full_time;
   @JsonProperty("start_date")
   private LocalDate start_date;
   @JsonProperty("end_date")

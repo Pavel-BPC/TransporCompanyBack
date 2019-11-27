@@ -22,12 +22,12 @@ public class TransportController extends ControllersReturnRequests {
 
 
   @GetMapping("/transport/{id}")
-  public ResponseEntity<TransportDto> get(@PathVariable String id) {
+  public ResponseEntity<TransportDto> getTransport(@PathVariable String id) {
     return new ResponseEntity<>(new TransportDto("1", "c1", "name1", 1, 1, 1), HttpStatus.OK);
   }
 
   @GetMapping("/transport")
-  public ResponseEntity<java.util.List<TransportDto>> getList() {
+  public ResponseEntity<java.util.List<TransportDto>> getListTransport() {
     List<TransportDto> transportDtos = Arrays.asList(
         new TransportDto("1", "c1", "name1", 1, 1, 1),
         new TransportDto("2", "c2", "name2", 2, 2, 2),
@@ -41,14 +41,14 @@ public class TransportController extends ControllersReturnRequests {
   }
 
   @DeleteMapping("/transport/{id}")
-  public ResponseEntity delete(@PathVariable String id) {
+  public ResponseEntity deleteTransport(@PathVariable String id) {
 
     return new ResponseEntity(HttpStatus.OK);
   }
 
 
   @PostMapping("/transport")
-  public ResponseEntity create(@RequestBody TransportDto transportDto)
+  public ResponseEntity createTransport(@RequestBody TransportDto transportDto)
       throws UniqueObjectException, DontExistsObjectInDatabaseException {
     return returnOkRequest();
   }

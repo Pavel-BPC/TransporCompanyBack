@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MaspController extends ControllersReturnRequests {
 
   @GetMapping("/map/{id}")
-  public ResponseEntity get(@PathVariable String id) {
+  public ResponseEntity getMapById(@PathVariable String id) {
 
     String as = "{\n"
         + "  \"id\": \"1\",\n"
@@ -53,10 +53,29 @@ public class MaspController extends ControllersReturnRequests {
     return new ResponseEntity<>(as.replace("1",String.valueOf(id)), HttpStatus.OK);
   }
 
-
+  @GetMapping("/map/carrier")
+  public ResponseEntity getMapForCarrier(){
+    String s1 = "[";
+    String s2 = "]";
+    String as = "{\n"
+        + "  \"id\": \"1\",\n"
+        + "  \"end_point\": \"1\",\n"
+        + "  \"start_point\": \"1\",\n"
+        + "  \"distance\": \"1\",\n"
+        + "  \"cost\": \"1\",\n"
+        + "  \"time\": \"1\",\n"
+        + "}";
+    String s = new String(as);
+    for (int i = 1; i < 6; i++) {
+      as += "," + s.replace("1",String.valueOf(i+1));
+    }
+    s1 += as;
+    s1 += s2;
+    return new ResponseEntity<>(s1, HttpStatus.OK);
+  }
 
   @GetMapping("/map")
-  public ResponseEntity<String> getCompany() {
+  public ResponseEntity<String> getAllMap() {
     String s1 = "[";
     String s2 = "]";
     String as = "{\n"
@@ -94,18 +113,18 @@ public class MaspController extends ControllersReturnRequests {
   }
 
   @PostMapping("/map")
-  public ResponseEntity createCompany(@RequestBody ObjectNode companyDto)
+  public ResponseEntity createMap(@RequestBody ObjectNode companyDto)
       throws UniqueObjectException, DontExistsObjectInDatabaseException {
     return returnOkRequest();
   }
 
   @DeleteMapping("/map/{id}")
-  public ResponseEntity delete(@PathVariable String id) {
+  public ResponseEntity deleteMap(@PathVariable String id) {
     return returnOkRequest();
   }
 
   @PatchMapping("/map")
-  public ResponseEntity update(@RequestBody ObjectNode companyDto)
+  public ResponseEntity updateMap(@RequestBody ObjectNode companyDto)
       throws DontExistsObjectInDatabaseException {
     return returnOkRequest();
   }

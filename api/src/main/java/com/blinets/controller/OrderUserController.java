@@ -25,35 +25,35 @@ public class OrderUserController extends ControllersReturnRequests {
 
 
   @GetMapping("/userOrder")
-  public ResponseEntity<List<UserOrderDto>> getUsers() {
+  public ResponseEntity<List<UserOrderDto>> getUserOrder() {
     List<UserOrderDto> userOrderDtos = Arrays.asList(
-        new UserOrderDto("1", 1, "1", LocalDate.now(), LocalDate.now(), LocalDate.now()),
-        new UserOrderDto("2", 2, "2", LocalDate.now(), LocalDate.now(), LocalDate.now()),
-        new UserOrderDto("3", 3, "3", LocalDate.now(), LocalDate.now(), LocalDate.now()),
-        new UserOrderDto("4", 4, "4", LocalDate.now(), LocalDate.now(), LocalDate.now()),
-        new UserOrderDto("5", 5, "5", LocalDate.now(), LocalDate.now(), LocalDate.now())
+        new UserOrderDto("1", 1, "1", LocalDate.now(), LocalDate.now()),
+        new UserOrderDto("2", 2, "2", LocalDate.now(), LocalDate.now()),
+        new UserOrderDto("3", 3, "3", LocalDate.now(), LocalDate.now()),
+        new UserOrderDto("4", 4, "4", LocalDate.now(), LocalDate.now()),
+        new UserOrderDto("5", 5, "5", LocalDate.now(), LocalDate.now())
     );
     return new ResponseEntity<>(userOrderDtos, HttpStatus.OK);
   }
 
   @GetMapping("/userOrder/{id}")
-  public ResponseEntity getUsers(@PathVariable String id) {
-    return new ResponseEntity<>(new UserOrderDto("5", 5, "5", LocalDate.now(), LocalDate.now(), LocalDate.now()), HttpStatus.OK);
+  public ResponseEntity getUserOrder(@PathVariable String id) {
+    return new ResponseEntity<>(new UserOrderDto("5", 5, "5", LocalDate.now(), LocalDate.now()), HttpStatus.OK);
   }
 
   @PostMapping("/userOrder")
-  public ResponseEntity createPoint(@RequestBody PointDto pointDto)
+  public ResponseEntity createUserOrder(@RequestBody PointDto pointDto)
       throws UniqueObjectException, DontExistsObjectInDatabaseException {
     return returnOkRequest();
   }
 
   @DeleteMapping("/userOrder/{id}")
-  public ResponseEntity delete(@PathVariable String id) {
+  public ResponseEntity deleteUserOrder(@PathVariable String id) {
     return returnOkRequest();
   }
 
   @PatchMapping("/userOrder")
-  public ResponseEntity update(@RequestBody PointDto pointDto)
+  public ResponseEntity updateUserOrder(@RequestBody PointDto pointDto)
       throws DontExistsObjectInDatabaseException {
     return returnOkRequest();
   }
