@@ -26,21 +26,21 @@ public class PointController extends ControllersReturnRequests {
 
 
   @GetMapping("/point")
-  public ResponseEntity<List<Point>> getUsers() {
-    List<Point> points = Arrays.asList(
-        new Point(UUID.randomUUID().toString(), "Клецк"),
-        new Point(UUID.randomUUID().toString(), "Солигорск"),
-        new Point(UUID.randomUUID().toString(), "Минск"),
-        new Point(UUID.randomUUID().toString(), "Гродно"),
-        new Point(UUID.randomUUID().toString(), "Орша"),
-        new Point(UUID.randomUUID().toString(), "Речица")
+  public ResponseEntity<List<PointDto>> getUsers() {
+    List<PointDto> points = Arrays.asList(
+        new PointDto(UUID.randomUUID().toString(), "Клецк"),
+        new PointDto(UUID.randomUUID().toString(), "Солигорск"),
+        new PointDto(UUID.randomUUID().toString(), "Минск"),
+        new PointDto(UUID.randomUUID().toString(), "Гродно"),
+        new PointDto(UUID.randomUUID().toString(), "Орша"),
+        new PointDto(UUID.randomUUID().toString(), "Речица")
     );
     return new ResponseEntity<>(points, HttpStatus.OK);
   }
 
   @GetMapping("/point/{id}")
-  public ResponseEntity<Point> getUsers(@PathVariable String id) {
-    return new ResponseEntity<>(new Point(UUID.randomUUID().toString(), "Клецк"), HttpStatus.OK);
+  public ResponseEntity<PointDto> getUsers(@PathVariable String id) {
+    return new ResponseEntity<>(new PointDto(UUID.randomUUID().toString(), "Клецк"), HttpStatus.OK);
   }
 
   @PostMapping("/point")

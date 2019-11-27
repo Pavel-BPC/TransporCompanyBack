@@ -4,6 +4,8 @@ import com.blinets.configuration.ControllersReturnRequests;
 import com.blinets.dto.CompanyDto;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
+import java.util.Map;
+import jdk.nashorn.internal.ir.ObjectNode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -82,7 +84,7 @@ public class MaspController extends ControllersReturnRequests {
   }
 
   @PostMapping("/map")
-  public ResponseEntity createCompany(@RequestBody CompanyDto companyDto)
+  public ResponseEntity createCompany(@RequestBody ObjectNode companyDto)
       throws UniqueObjectException, DontExistsObjectInDatabaseException {
     return returnOkRequest();
   }
@@ -93,7 +95,7 @@ public class MaspController extends ControllersReturnRequests {
   }
 
   @PatchMapping("/map")
-  public ResponseEntity update(@RequestBody CompanyDto companyDto)
+  public ResponseEntity update(@RequestBody ObjectNode companyDto)
       throws DontExistsObjectInDatabaseException {
     return returnOkRequest();
   }
