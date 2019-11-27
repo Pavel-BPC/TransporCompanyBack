@@ -58,6 +58,10 @@ public class OrderUserController extends ControllersReturnRequests {
     return returnOkRequest();
   }
 
+  @PostMapping("/userOrder/optimal/product/map/{id}")
+  public ResponseEntity startTransportation(@PathVariable String id){
+    return returnOkRequest();
+  }
 
 
 }
