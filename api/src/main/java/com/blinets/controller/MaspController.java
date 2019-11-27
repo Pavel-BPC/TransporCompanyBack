@@ -21,30 +21,37 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class MaspController extends ControllersReturnRequests {
 
-  @GetMapping("/map")
-  public ResponseEntity get() {
+  @GetMapping("/map/{id}")
+  public ResponseEntity getMapById(@PathVariable String id) {
+
     return new ResponseEntity<>(new String(), HttpStatus.OK);
   }
 
+  @GetMapping("/map/carrier")
+  public ResponseEntity getMapForCarrier(){
 
-  @GetMapping("/map/{id}")
-  public ResponseEntity<String> getMap(@PathVariable String id) {
-       return new ResponseEntity<>( id, HttpStatus.OK);
+    return new ResponseEntity<>(new String(), HttpStatus.OK);
+  }
+
+  @GetMapping("/map")
+  public ResponseEntity<String> getAllMap() {
+
+    return new ResponseEntity<>(new String(), HttpStatus.OK);
   }
 
   @PostMapping("/map")
-  public ResponseEntity createMap(@RequestBody ObjectNode objectNode )
+  public ResponseEntity createMap(@RequestBody ObjectNode companyDto)
       throws UniqueObjectException, DontExistsObjectInDatabaseException {
     return returnOkRequest();
   }
 
   @DeleteMapping("/map/{id}")
-  public ResponseEntity delete(@PathVariable String id) {
+  public ResponseEntity deleteMap(@PathVariable String id) {
     return returnOkRequest();
   }
 
   @PatchMapping("/map")
-  public ResponseEntity update(@RequestBody ObjectNode objectNode )
+  public ResponseEntity updateMap(@RequestBody ObjectNode companyDto)
       throws DontExistsObjectInDatabaseException {
     return returnOkRequest();
   }

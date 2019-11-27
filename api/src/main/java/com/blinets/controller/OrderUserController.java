@@ -2,6 +2,8 @@ package com.blinets.controller;
 
 import com.blinets.configuration.ControllersReturnRequests;
 import com.blinets.dto.UserOrderDto;
+import com.blinets.dto.UserOrderProductDto;
+import com.blinets.entity.UserOrder;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
 import java.time.LocalDate;
@@ -24,38 +26,41 @@ public class OrderUserController extends ControllersReturnRequests {
 
 
   @GetMapping("/userOrder")
-  public ResponseEntity<List<UserOrderDto>> getUsers() {
+  public ResponseEntity<List<UserOrderDto>> getUserOrder() {
     List<UserOrderDto> userOrderDtos = Arrays.asList(
-        new UserOrderDto("1", 1, "1", LocalDate.now(), LocalDate.now(), LocalDate.now()),
-        new UserOrderDto("2", 2, "2", LocalDate.now(), LocalDate.now(), LocalDate.now()),
-        new UserOrderDto("3", 3, "3", LocalDate.now(), LocalDate.now(), LocalDate.now()),
-        new UserOrderDto("4", 4, "4", LocalDate.now(), LocalDate.now(), LocalDate.now()),
-        new UserOrderDto("5", 5, "5", LocalDate.now(), LocalDate.now(), LocalDate.now())
+        new UserOrderDto("1", 1, "1", LocalDate.now(), LocalDate.now()),
+        new UserOrderDto("2", 2, "2", LocalDate.now(), LocalDate.now()),
+        new UserOrderDto("3", 3, "3", LocalDate.now(), LocalDate.now()),
+        new UserOrderDto("4", 4, "4", LocalDate.now(), LocalDate.now()),
+        new UserOrderDto("5", 5, "5", LocalDate.now(), LocalDate.now())
     );
     return new ResponseEntity<>(userOrderDtos, HttpStatus.OK);
   }
 
   @GetMapping("/userOrder/{id}")
-  public ResponseEntity getUsers(@PathVariable String id) {
-    return new ResponseEntity<>(
-        new UserOrderDto("5", 5, "5", LocalDate.now(), LocalDate.now(), LocalDate.now()),
-        HttpStatus.OK);
+  public ResponseEntity getUserOrder(@PathVariable String id) {
+    return new ResponseEntity<>(new UserOrderDto("5", 5, "5", LocalDate.now(), LocalDate.now()), HttpStatus.OK);
   }
 
   @PostMapping("/userOrder")
-  public ResponseEntity createUserOrder(@RequestBody UserOrderDto userOrderDto )
+  public ResponseEntity createUserOrder(@RequestBody UserOrderProductDto userOrderProductDto )
       throws UniqueObjectException, DontExistsObjectInDatabaseException {
     return returnOkRequest();
   }
 
   @DeleteMapping("/userOrder/{id}")
-  public ResponseEntity delete(@PathVariable String id) {
+  public ResponseEntity deleteUserOrder(@PathVariable String id) {
     return returnOkRequest();
   }
 
   @PatchMapping("/userOrder")
   public ResponseEntity update(@RequestBody UserOrderDto userOrderDto )
       throws DontExistsObjectInDatabaseException {
+    return returnOkRequest();
+  }
+
+  @PostMapping("/userOrder/optimal/product/map/{id}")
+  public ResponseEntity startTransportation(@PathVariable String id){
     return returnOkRequest();
   }
 
