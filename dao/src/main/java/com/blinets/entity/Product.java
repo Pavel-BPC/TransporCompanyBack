@@ -30,7 +30,7 @@ public class Product {
   private Integer weightProduct;
 
   @Column
-  private Integer volumeProduct;
+  private String nameProduct;
 
   @Column
   private String typeProduct;

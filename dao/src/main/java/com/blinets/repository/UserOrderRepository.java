@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserOrderRepository extends JpaRepository<UserOrder, String> {
 
+  UserOrder findByIdOrder(String id);
 
 }
