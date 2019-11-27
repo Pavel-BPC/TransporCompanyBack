@@ -21,66 +21,76 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class MaspController extends ControllersReturnRequests {
 
-  @GetMapping("/map")
-  public ResponseEntity get() {
-    String as = "[\n"
+  @GetMapping("/map/{id}")
+  public ResponseEntity get(@PathVariable String id) {
+
+    String as = "{\n"
+        + "  \"id\": \"1\",\n"
+        + "  \"end_point\": \"1\",\n"
+        + "  \"start_point\": \"1\",\n"
+        + "  \"distance\": \"1\",\n"
+        + "  \"cost\": \"1\",\n"
+        + "  \"time\": \"1\",\n"
+        + "  \"points\": [\n"
         + "    {\n"
-        + "        \"id\": \"1\",\n"
-        + "        \"end_point\": \"1\",\n"
-        + "        \"start_point\": \"1\",\n"
-        + "        \"distance\": \"1\",\n"
-        + "        \"cost\": \"1\",\n"
-        + "        \"time\": \"1\"\n"
+        + "      \"point\": \"1\"\n"
         + "    },\n"
         + "    {\n"
-        + "        \"id\": \"2\",\n"
-        + "        \"end_point\": \"2\",\n"
-        + "        \"start_point\": \"2\",\n"
-        + "        \"distance\": \"2\",\n"
-        + "        \"cost\": \"2\",\n"
-        + "        \"time\": \"2\"\n"
+        + "      \"point\": \"1\"\n"
         + "    },\n"
         + "    {\n"
-        + "          \"id\": \"3\",\n"
-        + "        \"end_point\": \"3\",\n"
-        + "        \"start_point\": \"3\",\n"
-        + "        \"distance\": \"3\",\n"
-        + "        \"cost\": \"3\",\n"
-        + "        \"time\": \"3\"\n"
+        + "      \"point\": \"1\"\n"
         + "    },\n"
         + "    {\n"
-        + "          \"id\": \"4\",\n"
-        + "        \"end_point\": \"4\",\n"
-        + "        \"start_point\": \"4\",\n"
-        + "        \"distance\": \"4\",\n"
-        + "        \"cost\": \"4\",\n"
-        + "        \"time\": \"4\"\n"
+        + "      \"point\": \"1\"\n"
+        + "    },\n"
+        + "    {\n"
+        + "      \"point\": \"1\"\n"
         + "    }\n"
-        + "    ,\n"
-        + "    {\n"
-        + "          \"id\": \"5\",\n"
-        + "        \"end_point\": \"5\",\n"
-        + "        \"start_point\": \"5\",\n"
-        + "        \"distance\": \"5\",\n"
-        + "        \"cost\": \"5\",\n"
-        + "        \"time\": \"5\"\n"
-        + "    }\n"
-        + "]";
+        + "  ]\n"
+        + "}";
+
     return new ResponseEntity<>(as, HttpStatus.OK);
   }
 
 
-  @GetMapping("/map/{id}")
-  public ResponseEntity<String> getCompany(@PathVariable String id) {
-    String s = " {\n"
-        + "          \"id\": \"5\",\n"
-        + "        \"end_point\": \"5\",\n"
-        + "        \"start_point\": \"5\",\n"
-        + "        \"distance\": \"5\",\n"
-        + "        \"cost\": \"5\",\n"
-        + "        \"time\": \"5\"\n"
-        + "    }";
-    return new ResponseEntity<>(s, HttpStatus.OK);
+
+  @GetMapping("/map")
+  public ResponseEntity<String> getCompany() {
+    String s1 = "[";
+    String s2 = "]";
+    String as = "{\n"
+        + "  \"id\": \"1\",\n"
+        + "  \"end_point\": \"1\",\n"
+        + "  \"start_point\": \"1\",\n"
+        + "  \"distance\": \"1\",\n"
+        + "  \"cost\": \"1\",\n"
+        + "  \"time\": \"1\",\n"
+        + "  \"points\": [\n"
+        + "    {\n"
+        + "      \"point\": \"1\"\n"
+        + "    },\n"
+        + "    {\n"
+        + "      \"point\": \"1\"\n"
+        + "    },\n"
+        + "    {\n"
+        + "      \"point\": \"1\"\n"
+        + "    },\n"
+        + "    {\n"
+        + "      \"point\": \"1\"\n"
+        + "    },\n"
+        + "    {\n"
+        + "      \"point\": \"1\"\n"
+        + "    }\n"
+        + "  ]\n"
+        + "}";
+    String s = new String(as);
+    for (int i = 1; i < 6; i++) {
+      as += "," + s.replace("1",String.valueOf(i+1));
+    }
+    s1 += as;
+    s1 += s2;
+    return new ResponseEntity<>(s1, HttpStatus.OK);
   }
 
   @PostMapping("/map")
