@@ -50,7 +50,7 @@ public class MaspController extends ControllersReturnRequests {
         + "  ]\n"
         + "}";
 
-    return new ResponseEntity<>(as, HttpStatus.OK);
+    return new ResponseEntity<>(as.replace("1",String.valueOf(id)), HttpStatus.OK);
   }
 
 
