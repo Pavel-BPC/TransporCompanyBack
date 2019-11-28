@@ -6,6 +6,7 @@ import com.blinets.dto.MapsDto;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
 import com.blinets.services.imp.MapsService;
+import java.util.List;
 import jdk.nashorn.internal.ir.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,19 +35,18 @@ public class MaspController extends ControllersReturnRequests {
 
   @GetMapping("/map/carrier")
   public ResponseEntity getMapForCarrier() {
-    return new ResponseEntity<>(mapsService.getGeneralMapsDto(), HttpStatus.OK);
+    return new ResponseEntity<>(mapsService.getGeneralMapsDtoByIdMap(), HttpStatus.OK);
   }
 
   @GetMapping("/map")
-  public ResponseEntity<String> getAllMap() {
-
-    return new ResponseEntity<>(new String(), HttpStatus.OK);
+  public ResponseEntity<List<GeneralMapsDto>> getAllMap() {
+    return new ResponseEntity<>(mapsService.getGeneralListMapsDtoWithPoints(), HttpStatus.OK);
   }
 
   @PostMapping("/map")
   public ResponseEntity<String> createMap(@RequestBody MapsDto mapsDto)
       throws UniqueObjectException, DontExistsObjectInDatabaseException {
-    return new ResponseEntity<>(mapsService.create(mapsDto),HttpStatus.OK);
+    return new ResponseEntity<>(mapsService.create(mapsDto), HttpStatus.OK);
   }
 
   @DeleteMapping("/map/{id}")
