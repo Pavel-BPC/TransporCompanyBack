@@ -1,6 +1,7 @@
 package com.blinets.controller;
 
 import com.blinets.configuration.ControllersReturnRequests;
+import com.blinets.dto.GeneralMapsDto;
 import com.blinets.dto.MapsDto;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
@@ -24,12 +25,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class MaspController extends ControllersReturnRequests {
 
   @Autowired
-  private CrudService<MapsDto> mapsService;
+  private MapsService mapsService;
 
   @GetMapping("/map/{id}")
-  public ResponseEntity<String> getMapById(@PathVariable String id) {
+  public ResponseEntity<GeneralMapsDto> getMapById(@PathVariable String id) {
 
-    return new ResponseEntity<>(new String(), HttpStatus.OK);
+    return new ResponseEntity<>(mapsService.getGeneralMapsDto(id), HttpStatus.OK);
   }
 
   @GetMapping("/map/carrier")

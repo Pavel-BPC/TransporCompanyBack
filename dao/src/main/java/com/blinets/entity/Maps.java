@@ -33,7 +33,7 @@ public class Maps {
   private Point endIdPointOfRoute;
 
   @OneToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "id_route", nullable = false)
-  private Route idRoute;
+  @JoinColumn(name = "id_next_route", nullable = false)
+  private Route idNextRoute;
 
 }

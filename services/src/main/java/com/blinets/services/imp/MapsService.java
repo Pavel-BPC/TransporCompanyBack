@@ -1,26 +1,25 @@
 package com.blinets.services.imp;
 
+import com.blinets.dto.GeneralMapsDto;
 import com.blinets.dto.MapsDto;
+import com.blinets.dto.PointDto;
 import com.blinets.dto.RouteDto;
 import com.blinets.entity.Maps;
 import com.blinets.entity.Point;
 import com.blinets.entity.Route;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
-import com.blinets.exceptions.WrongNumberPointsInCards;
+import com.blinets.mapper.PointMapper;
 import com.blinets.repository.MapsRepository;
 import com.blinets.repository.PointRepository;
 import com.blinets.repository.RouteRepository;
 import com.blinets.repository.TransportRepository;
 import com.blinets.services.CrudService;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import javax.annotation.PostConstruct;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +32,8 @@ public class MapsService implements CrudService<MapsDto> {
   private final TransportRepository transportRepository;
   private final RouteRepository routeRepository;
   private final MapsRepository mapsRepository;
+  private PointMapper pointMapper = Mappers.getMapper(PointMapper.class);
+
 
   @Autowired
   public MapsService(PointServer pointServer, PointRepository pointRepository,
@@ -53,9 +54,9 @@ public class MapsService implements CrudService<MapsDto> {
     maps.setIdMaps(UUID.randomUUID().toString());
 
     List<RouteDto> routeDtoList = mapsDto.getRouteDtos();
-    if (routeDtoList.size() % 2 != 0) {
-      throw new WrongNumberPointsInCards();
-    }
+//    if (routeDtoList.size() % 2 != 0) {
+//      throw new WrongNumberPointsInCards();
+//    }
 
     RouteDto routeDtoFirst = routeDtoList.get(0);
     RouteDto routeDtoLast = routeDtoList.get(routeDtoList.size() - 1);
@@ -80,8 +81,8 @@ public class MapsService implements CrudService<MapsDto> {
     routeFirst.setDistance(routeDtoFirst.getDistance());
 
     routeFirst.setNextIdRoute(null);
-
-    for (int i = 1; i <= routeDtoList.size() - 1; i++) {
+    maps.setIdNextRoute(new Route(routeFirst));
+    for (int i = 1; i < routeDtoList.size(); i++) {
       RouteDto routeDto = routeDtoList.get(i);
 
       routeMedium.setIdRoute(UUID.randomUUID().toString());
@@ -99,14 +100,13 @@ public class MapsService implements CrudService<MapsDto> {
       routeFirst.setNextIdRoute(routeMedium.getIdRoute());
 
       routeRepository.save(routeFirst);
-      routeFirst = routeMedium;
+      routeFirst = new Route(routeMedium);
 
     }
-    routeRepository.save(routeMedium);
+    routeRepository.save(routeFirst);
 
-    maps.setIdRoute(routeFirst);
     mapsRepository.save(maps);
-    return null;
+    return maps.getIdMaps();
   }
 
   @Override
@@ -117,6 +117,39 @@ public class MapsService implements CrudService<MapsDto> {
   @Override
   public MapsDto get(String id) {
     return null;
+  }
+
+  public GeneralMapsDto getGeneralMapsDto(String id) {
+    Maps byIdMaps = mapsRepository.findByIdMaps(id);
+    Route byIdRoute = routeRepository.findByIdRoute(byIdMaps.getIdNextRoute().getIdRoute());
+
+    GeneralMapsDto generalMapsDto = new GeneralMapsDto();
+    generalMapsDto.setIdMap(id);
+    generalMapsDto.setName_start_point(byIdMaps.getStartIdPointOfRoute().getNamePoint());
+
+    generalMapsDto.setPointList(new ArrayList<PointDto>());
+
+    Integer generalDistance =0 ;
+    Integer generalCost = 0;
+
+    while (true) {
+      generalDistance += byIdRoute.getDistance();
+      generalCost += byIdRoute.getCost();
+      generalMapsDto.getPointList()
+          .add(pointMapper.pointToPointDto(byIdRoute.getStartIdPointOfRoute()));
+      if (byIdRoute.getNextIdRoute() == null) {
+        generalMapsDto.getPointList()
+            .add(pointMapper.pointToPointDto(byIdRoute.getEndIdPointOfRoute()));
+        generalMapsDto.setName_end_point(byIdRoute.getEndIdPointOfRoute().getNamePoint());
+        break;
+      }
+
+      byIdRoute = routeRepository.findByIdRoute(byIdRoute.getNextIdRoute());
+    }
+    generalMapsDto.setGeneral_distance(String.valueOf(generalDistance));
+    generalMapsDto.setGeneral_cost(String.valueOf(generalCost));
+
+    return generalMapsDto;
   }
 
   @Override
