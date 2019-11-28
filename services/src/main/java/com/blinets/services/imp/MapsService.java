@@ -119,7 +119,7 @@ public class MapsService implements CrudService<MapsDto> {
     return null;
   }
 
-  public GeneralMapsDto getGeneralMapsDto(String id) {
+  public GeneralMapsDto getGeneralMapsDtoWithPoints(String id) {
     Maps byIdMaps = mapsRepository.findByIdMaps(id);
     Route byIdRoute = routeRepository.findByIdRoute(byIdMaps.getIdNextRoute().getIdRoute());
 
@@ -150,6 +150,38 @@ public class MapsService implements CrudService<MapsDto> {
     generalMapsDto.setGeneral_cost(String.valueOf(generalCost));
 
     return generalMapsDto;
+  }
+
+  public List<GeneralMapsDto> getGeneralMapsDto() {
+    List<Maps> mapsList = mapsRepository.findAll();
+    List<GeneralMapsDto> generalMapsDtoList = new ArrayList<>();
+    for (Maps maps:mapsList ) {
+
+      Route byIdRoute = routeRepository.findByIdRoute(maps.getIdNextRoute().getIdRoute());
+
+      GeneralMapsDto generalMapsDto = new GeneralMapsDto();
+      generalMapsDto.setIdMap(maps.getIdMaps());
+      generalMapsDto.setName_start_point(maps.getStartIdPointOfRoute().getNamePoint());
+      generalMapsDto.setPointList(null);
+      Integer generalDistance = 0;
+      Integer generalCost = 0;
+
+      while (true) {
+        generalDistance += byIdRoute.getDistance();
+        generalCost += byIdRoute.getCost();
+        if (byIdRoute.getNextIdRoute() == null) {
+          generalMapsDto.setName_end_point(byIdRoute.getEndIdPointOfRoute().getNamePoint());
+          break;
+        }
+        byIdRoute = routeRepository.findByIdRoute(byIdRoute.getNextIdRoute());
+      }
+      generalMapsDto.setGeneral_distance(String.valueOf(generalDistance));
+      generalMapsDto.setGeneral_cost(String.valueOf(generalCost));
+
+      generalMapsDtoList.add(generalMapsDto);
+    }
+
+    return generalMapsDtoList;
   }
 
   @Override
