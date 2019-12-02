@@ -2,17 +2,17 @@ package com.blinets.controller;
 
 import com.blinets.configuration.ControllersReturnRequests;
 import com.blinets.dto.UserDto;
-import com.blinets.entity.User;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
 import com.blinets.services.CrudService;
 import com.blinets.services.security.UserPrincipalDetailsService;
-import java.util.Optional;
-import javax.annotation.security.RolesAllowed;
+import java.security.Principal;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -42,17 +41,24 @@ public class UserController extends ControllersReturnRequests {
   }
 
   @GetMapping("/user/login")
-  public ResponseEntity<Optional<User>> login(@RequestHeader HttpHeaders user) {
+  public ResponseEntity<UserDto> login(Principal user) {
     //TODO
-    System.out.println();
-    return new ResponseEntity<>(userPrincipalDetailsService.findByLogin("admin"), HttpStatus.OK);
+    UsernamePasswordAuthenticationToken user1 = (UsernamePasswordAuthenticationToken) user;
+    GrantedAuthority grantedAuthority = new ArrayList<>((user1).getAuthorities()).get(0);
+    UserDto userDto = new UserDto();
+    if ("ROLE_ADMIN".equals(grantedAuthority.getAuthority())) {
+      userDto.setRoles("ADMIN");
+    } else if ("ROLE_USER".equals(grantedAuthority.getAuthority())) {
+      userDto.setRoles("USER");
+    }
+    return new ResponseEntity<>(userDto, HttpStatus.OK);
   }
 
- @GetMapping("/user")
+  @GetMapping("/user")
   public ResponseEntity<java.util.List<UserDto>> getUser() {
     //TODO
     System.out.println();
-    return new ResponseEntity<>(userServices.get(),HttpStatus.OK);
+    return new ResponseEntity<>(userServices.get(), HttpStatus.OK);
   }
 
   @PostMapping("/user")
