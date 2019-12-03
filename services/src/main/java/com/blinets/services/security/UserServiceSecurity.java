@@ -32,9 +32,9 @@ public class UserServiceSecurity {
   public void init() {
     userRepository.deleteAll();
 
-    User user = new User(UUID.randomUUID().toString(),"user",passwordEncoder.encode("user"), "USER");
-    User admin = new User(UUID.randomUUID().toString(),"admin",passwordEncoder.encode("admin"),"ADMIN");
-    User carrier = new User(UUID.randomUUID().toString(),"carrier",passwordEncoder.encode("carrier"),"CARRIER");
+    User user = new User("cbd29f42-a5cc-4e9c-a906-8b2e842244db","user",passwordEncoder.encode("user"), "USER");
+    User admin = new User("f813bf5b-d797-4285-84c5-eabda5154268","admin",passwordEncoder.encode("admin"),"ADMIN");
+    User carrier = new User("9cc3a063-8ba1-4321-9204-5d1bf3b67520","carrier",passwordEncoder.encode("carrier"),"CARRIER");
 
     userRepository.saveAll(Arrays.asList(user,admin,carrier));
   }
