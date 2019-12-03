@@ -47,11 +47,11 @@ public class UserController extends ControllersReturnRequests {
     GrantedAuthority grantedAuthority = new ArrayList<>((user1).getAuthorities()).get(0);
     UserDto userDto = new UserDto();
     if ("ROLE_ADMIN".equals(grantedAuthority.getAuthority())) {
-      userDto.setRoles("ADMIN");
+      userDto.setRole("ADMIN");
     } else if ("ROLE_USER".equals(grantedAuthority.getAuthority())) {
-      userDto.setRoles("USER");
+      userDto.setRole("USER");
     }else if ("ROLE_CARRIER".equals(grantedAuthority.getAuthority())) {
-      userDto.setRoles("CARRIER");
+      userDto.setRole("CARRIER");
     }
     return new ResponseEntity<>(userDto, HttpStatus.OK);
   }

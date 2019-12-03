@@ -38,7 +38,7 @@ public class UserServices implements CrudService<UserDto> {
     User user = userMapper.dtoToUser(userDto);
     user.setIdUser(UUID.randomUUID().toString());
     user.setPassword(passwordEncoder.encode(user.getPassword()));
-    user.setRoles(userDto.getRoles());
+    user.setRole(userDto.getRole());
     userRepository.save(user);
     return user.getIdUser();
   }
