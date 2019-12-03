@@ -51,7 +51,9 @@ public class MaspController extends ControllersReturnRequests {
 
   @DeleteMapping("/map/{id}")
   public ResponseEntity deleteMap(@PathVariable String id) {
-    return returnOkRequest();
+
+    mapsService.remove(id);
+    return returnOkRequest()  ;
   }
 
   @PatchMapping("/map")
