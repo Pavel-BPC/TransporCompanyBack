@@ -40,7 +40,7 @@ public class UserController extends ControllersReturnRequests {
     this.userPrincipalDetailsService = userPrincipalDetailsService;
   }
 
-  @GetMapping("/user/login")
+  @GetMapping("/login")
   public ResponseEntity<UserDto> login(Principal user) {
     //TODO
     UsernamePasswordAuthenticationToken user1 = (UsernamePasswordAuthenticationToken) user;

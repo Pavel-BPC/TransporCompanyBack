@@ -19,7 +19,7 @@ public class UserDto {
   @JsonProperty("email")
   private String loginEmail;
   private String password;
-  @JsonProperty("role")
+  @JsonProperty("roles")
   private String roles;
   @JsonProperty("phone_number")
   private String phoneNumber;
