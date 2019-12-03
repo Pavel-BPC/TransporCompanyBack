@@ -19,7 +19,7 @@ public class User implements Serializable {
   private String password;
   private String phoneNumber;
 
-  private String roles;
+  private String role;
 
   private int active;
 
@@ -29,18 +29,18 @@ public class User implements Serializable {
   public User() {
   }
 
-  public User(String idUser, String login, String password, String roles, String permissions) {
+  public User(String idUser, String login, String password, String role, String permissions) {
     this.idUser = idUser;
     this.loginEmail = login;
     this.password = password;
-    this.roles = roles;
+    this.role = role;
     this.permissions = permissions;
     this.active = 1;
   }
 
   public List<String> getRoleList() {
-    if (this.roles.length() > 0) {
-      return Arrays.asList(this.roles.split(","));
+    if (this.role.length() > 0) {
+      return Arrays.asList(this.role.split(","));
     }
     return new ArrayList<>();
   }
