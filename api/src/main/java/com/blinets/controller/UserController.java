@@ -50,6 +50,8 @@ public class UserController extends ControllersReturnRequests {
       userDto.setRoles("ADMIN");
     } else if ("ROLE_USER".equals(grantedAuthority.getAuthority())) {
       userDto.setRoles("USER");
+    }else if ("ROLE_CARRIER".equals(grantedAuthority.getAuthority())) {
+      userDto.setRoles("CARRIER");
     }
     return new ResponseEntity<>(userDto, HttpStatus.OK);
   }
