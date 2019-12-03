@@ -78,7 +78,7 @@ public class MapsService implements CrudService<MapsDto> {
         .setIdTransport(transportRepository.findByIdTransport(routeDtoFirst.getIdTransport()));
 
     routeFirst.setCost(routeDtoFirst.getCost());
-    routeFirst.setTime(LocalDate.parse(routeDtoFirst.getTime()));
+//    routeFirst.setTime(LocalDate.parse(routeDtoFirst.getTime()));
     routeFirst.setDistance(routeDtoFirst.getDistance());
 
     routeFirst.setNextIdRoute(null);
@@ -93,7 +93,7 @@ public class MapsService implements CrudService<MapsDto> {
       routeMedium.setIdTransport(transportRepository.findByIdTransport(routeDto.getIdTransport()));
 
       routeMedium.setCost(routeDto.getCost());
-      routeMedium.setTime(LocalDate.parse(routeDto.getTime()));
+//      routeMedium.setTime(LocalDate.parse(routeDto.getTime()));
       routeMedium.setDistance(routeDto.getDistance());
 
       routeMedium.setNextIdRoute(null);
@@ -207,26 +207,29 @@ public class MapsService implements CrudService<MapsDto> {
 //  @PostConstruct
 //  void init() throws IOException, UniqueObjectException, DontExistsObjectInDatabaseException {
 //    MapsDto mapsDto = new ObjectMapper().readValue(
-//        "{\n"
-//            + "\"routeDtos\":  [\n"
-//            + "  {\n"
-//            + "  \"start_point\": \"45b09dec-323e-4e70-b7f9-ce877efb1616\",\n"
-//            + "  \"end_point\": \"cbd29f42-a5cc-4e9c-a906-8b2e842244db\",\n"
-//            + "  \"transport\": \"a3ba172f-d772-487e-a820-5e4595e96be5\",\n"
-//            + "  \"distance\": \"999\",\n"
-//            + "  \"cost\": \"999\",\n"
-//            + "  \"time\": \"2019-11-28\"\n"
-//            + "  },\n"
-//            + "   {\n"
-//            + "  \"start_point\": \"cbd29f42-a5cc-4e9c-a906-8b2e842244db\",\n"
-//            + "  \"end_point\": \"5db17bc6-1bd7-4a0b-b043-604ca718e06f\",\n"
-//            + "  \"transport\": \"a3ba172f-d772-487e-a820-5e4595e96be5\",\n"
-//            + "  \"distance\": \"100\",\n"
-//            + "  \"cost\": \"100\",\n"
-//            + "  \"time\": \"2019-11-28\"\n"
-//            + "  }\n"
-//            + "] \n"
-//            + "}"
+//    {
+//            "routeDtos":  [
+//              {
+//              "start_point": "45b09dec-323e-4e70-b7f9-ce877efb1616",
+//              "end_point": "cbd29f42-a5cc-4e9c-a906-8b2e842244db",
+//              "transport": "a3ba172f-d772-487e-a820-5e4595e96be5",
+//              "distance": "999",
+//              "cost": "999",
+//              "time": "2019-11-28"
+//              },
+//               {
+//              "start_point": "cbd29f42-a5cc-4e9c-a906-8b2e842244db",
+//              "end_point": "5db17bc6-1bd7-4a0b-b043-604ca718e06f",
+//              "transport": "a3ba172f-d772-487e-a820-5e4595e96be5",
+//              "distance": "100",
+//              "cost": "100",
+//              "time": "2019-11-28"
+//              }
+//            ]
+//            }
+
+    ////{"routeDtos":[{"start_point":"5db17bc6-1bd7-4a0b-b043-604ca718e06f","end_point":"459c7b45-bddc-48af-affd-30f4268aa946","transport":"a3ba172f-d772-487e-a820-5e4595e96be5","distance":"2","cost":"534","time":"534"},{"start_point":"8211e92f-ba50-41f1-b99c-c961353d90bf","end_point":"5db17bc6-1bd7-4a0b-b043-604ca718e06f","transport":"4dbae581-4aae-4018-af66-0520525542d4","distance":"4353","cost":"345","time":"5345"},{"start_point":"459c7b45-bddc-48af-affd-30f4268aa946","end_point":"8211e92f-ba50-41f1-b99c-c961353d90bf","transport":"4dbae581-4aae-4018-af66-0520525542d4","distance":"654","cost":"4564","time":"6546"},{"start_point":"cbd29f42-a5cc-4e9c-a906-8b2e842244db","end_point":"8211e92f-ba50-41f1-b99c-c961353d90bf","transport":"16995a17-a0fc-46e0-a602-dc54b7dc462c","distance":"5345","cost":"5345","time":"345"},{"start_point":"5db17bc6-1bd7-4a0b-b043-604ca718e06f","end_point":"dad7d429-8f2d-4e22-af40-a3cb929cbddc","transport":"16995a17-a0fc-46e0-a602-dc54b7dc462c","distance":"3453","cost":"534","time":"534"}]}
+
 //    ,MapsDto.class);
 //
 //    create(mapsDto);

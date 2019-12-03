@@ -38,17 +38,16 @@ public class User implements Serializable {
   private int active;
 
 
-  private String permissions;
+
 
   public User() {
   }
 
-  public User(String idUser, String login, String password, String roles, String permissions) {
+  public User(String idUser, String login, String password, String roles) {
     this.idUser = idUser;
     this.loginEmail = login;
     this.password = password;
     this.roles = roles;
-    this.permissions = permissions;
     this.active = 1;
   }
 
@@ -59,10 +58,10 @@ public class User implements Serializable {
     return new ArrayList<>();
   }
 
-  public List<String> getPermissionList(){
-    if(this.permissions.length() > 0){
-      return Arrays.asList(this.permissions.split(","));
-    }
-    return new ArrayList<>();
-  }
+//  public List<String> getPermissionList(){
+//    if(this.permissions.length() > 0){
+//      return Arrays.asList(this.permissions.split(","));
+//    }
+//    return new ArrayList<>();
+//  }
 }
