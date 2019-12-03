@@ -50,7 +50,7 @@ public class TransportService implements CrudService<TransportDto> {
 
   @Override
   public void remove(String id) {
-    transportRepository.deleteById(id);
+    transportRepository.deleteByIdTransport(id);
   }
 
   @Override

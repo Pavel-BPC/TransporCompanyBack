@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface TransportRepository extends JpaRepository<Transport, String> {
 
   Transport findByIdTransport(String id);
+
+  void deleteByIdTransport(String id);
 }
