@@ -2,12 +2,15 @@ package com.blinets.controller;
 
 import com.blinets.configuration.ControllersReturnRequests;
 import com.blinets.dto.UserDto;
+import com.blinets.entity.User;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
 import com.blinets.services.CrudService;
+import com.blinets.services.security.UserPrincipal;
 import com.blinets.services.security.UserPrincipalDetailsService;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +49,7 @@ public class UserController extends ControllersReturnRequests {
     UsernamePasswordAuthenticationToken user1 = (UsernamePasswordAuthenticationToken) user;
     GrantedAuthority grantedAuthority = new ArrayList<>((user1).getAuthorities()).get(0);
     UserDto userDto = new UserDto();
+    userDto.setIdUser(((UserPrincipal)user1.getPrincipal()).getIdUser());
     if ("ROLE_ADMIN".equals(grantedAuthority.getAuthority())) {
       userDto.setRole("ADMIN");
     } else if ("ROLE_USER".equals(grantedAuthority.getAuthority())) {
@@ -57,7 +61,7 @@ public class UserController extends ControllersReturnRequests {
   }
 
   @GetMapping("/user")
-  public ResponseEntity<java.util.List<UserDto>> getUser() {
+  public ResponseEntity<List<UserDto>> getUser() {
     //TODO
     System.out.println();
     return new ResponseEntity<>(userServices.get(), HttpStatus.OK);

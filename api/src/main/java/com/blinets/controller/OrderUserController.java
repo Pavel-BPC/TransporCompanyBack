@@ -3,9 +3,9 @@ package com.blinets.controller;
 import com.blinets.configuration.ControllersReturnRequests;
 import com.blinets.dto.UserOrderDto;
 import com.blinets.dto.UserOrderProductDto;
-import com.blinets.entity.UserOrder;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
+import com.blinets.services.imp.UserOrderProductService;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +25,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderUserController extends ControllersReturnRequests {
 
 
+  private final UserOrderProductService userOrderProductService;
+
+  public OrderUserController(
+      UserOrderProductService userOrderProductService) {
+    this.userOrderProductService = userOrderProductService;
+  }
+
+
   @GetMapping("/userOrder")
   public ResponseEntity<List<UserOrderDto>> getUserOrder() {
     List<UserOrderDto> userOrderDtos = Arrays.asList(
@@ -37,15 +45,20 @@ public class OrderUserController extends ControllersReturnRequests {
     return new ResponseEntity<>(userOrderDtos, HttpStatus.OK);
   }
 
-  @GetMapping("/userOrder/{id}")
-  public ResponseEntity getUserOrder(@PathVariable String id) {
-    return new ResponseEntity<>(new UserOrderDto("5", 5, "5", LocalDate.now(), LocalDate.now()), HttpStatus.OK);
+  @GetMapping("/user-Order/user/{id}")
+  public ResponseEntity<List<UserOrderDto>> getUserOrder(@PathVariable String id) {
+    return new ResponseEntity<>(userOrderProductService.getUserOrder(id),
+        HttpStatus.OK);
   }
 
+
   @PostMapping("/userOrder")
-  public ResponseEntity createUserOrder(@RequestBody UserOrderProductDto userOrderProductDto )
+//  @PostMapping("/userOrder/user/{id}")
+  public ResponseEntity<String> createUserOrder(
+//      @PathVariable String id,
+      @RequestBody UserOrderProductDto userOrderProductDto)
       throws UniqueObjectException, DontExistsObjectInDatabaseException {
-    return returnOkRequest();
+    return new ResponseEntity<>(userOrderProductService.createUserOrderProduct(userOrderProductDto),HttpStatus.OK);
   }
 
   @DeleteMapping("/userOrder/{id}")
@@ -54,13 +67,13 @@ public class OrderUserController extends ControllersReturnRequests {
   }
 
   @PatchMapping("/userOrder")
-  public ResponseEntity update(@RequestBody UserOrderDto userOrderDto )
+  public ResponseEntity update(@RequestBody UserOrderDto userOrderDto)
       throws DontExistsObjectInDatabaseException {
     return returnOkRequest();
   }
 
   @PostMapping("/userOrder/optimal/product/map/{id}")
-  public ResponseEntity startTransportation(@PathVariable String id){
+  public ResponseEntity startTransportation(@PathVariable String id) {
     return returnOkRequest();
   }
 

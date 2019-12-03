@@ -1,5 +1,8 @@
 package com.blinets.controller;
 
+import com.blinets.services.imp.UserOrderProductService;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,10 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ProductController {
 
-  @GetMapping("/product/carrier/map/{id}")
-  public ResponseEntity<String> getProductByMaps(@PathVariable String id) {
+  @Autowired
+  private UserOrderProductService userOrderProductService;
 
-    return new ResponseEntity<>(new String(), HttpStatus.OK);
+  @GetMapping("/product/carrier/map/{id}")
+  public ResponseEntity<List> getProductByMaps(@PathVariable String id) {
+
+    return new ResponseEntity<>((List) userOrderProductService.getProductByIdMaps(id).values(), HttpStatus.OK);
   }
 
   @GetMapping("/product/carrier/optimal/map/{id}")

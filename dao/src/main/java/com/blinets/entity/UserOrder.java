@@ -30,20 +30,27 @@ public class UserOrder {
   @Column
   private String status;
 
-  @Column
+  @Column(nullable = true)
   private LocalDate fullTime;
-  @Column
+  @Column(nullable = true)
   private LocalDate startDate;
-  @Column
+  @Column(nullable = true)
   private LocalDate endDate;
 
 
-  @ManyToOne(fetch = FetchType.EAGER, optional = false)
-  @JoinColumn(name = "id_user", nullable = false)
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "id_user", nullable = true)
   private User user;
 
   @OneToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "id_maps", nullable = false)
+  @JoinColumn(name = "id_maps", nullable = true)
   private Maps maps;
+
+  @OneToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "start_id_point_route", nullable = false)
+  private Point startIdPointOfRoute;
+  @OneToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "end_id_point_route", nullable = false)
+  private Point endIdPointOfRoute;
 
 }

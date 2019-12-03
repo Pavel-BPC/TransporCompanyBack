@@ -12,9 +12,9 @@ public class UserOrderProductDto {
 
 
   @JsonProperty("start_point")
-  private String start_point;
+  private String startPoint;
   @JsonProperty("end_point")
-  private String end_point;
+  private String endPoint;
   @JsonProperty("weight_product")
   private Integer weightProduct;
   @JsonProperty("name_product")
