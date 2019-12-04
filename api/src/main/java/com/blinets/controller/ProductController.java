@@ -1,15 +1,17 @@
 package com.blinets.controller;
 
+import com.blinets.configuration.ControllersReturnRequests;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
-public class ProductController {
+public class ProductController extends ControllersReturnRequests {
 
   @GetMapping("/product/carrier/map/{id}")
   public ResponseEntity<String> getProductByMaps(@PathVariable String id) {
@@ -32,6 +34,11 @@ public class ProductController {
         + "  }\n"
         + "]";
     return new ResponseEntity<>(s, HttpStatus.OK);
+  }
+
+  @PostMapping("/product/carrier/map/{id}")
+  public ResponseEntity optimalProductForMap(@PathVariable String id) {
+    return returnOkRequest();
   }
 
 }
