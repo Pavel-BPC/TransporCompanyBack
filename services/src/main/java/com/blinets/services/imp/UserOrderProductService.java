@@ -6,7 +6,8 @@ import com.blinets.dto.UserOrderDto;
 import com.blinets.dto.UserOrderProductDto;
 import com.blinets.entity.Maps;
 import com.blinets.entity.Product;
-import com.blinets.entity.User;
+import com.blinets.entity.Route;
+import com.blinets.entity.Transport;
 import com.blinets.entity.UserOrder;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
@@ -15,14 +16,10 @@ import com.blinets.repository.PointRepository;
 import com.blinets.repository.ProductRepository;
 import com.blinets.repository.UserOrderRepository;
 import com.blinets.repository.UserRepository;
-import com.blinets.services.CrudService;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -112,7 +109,11 @@ public class UserOrderProductService {
         productDto.setId(product.getIdProduct());
         productDto.setName(product.getNameProduct());
         productDto.setWeight(product.getWeightProduct());
-//        productDto.setP(product.getP());
+        if (product.getTypeProduct().equals("1")) {
+          productDto.setPrice(product.getWeightProduct() * 75);
+        } else {
+          productDto.setPrice(product.getWeightProduct() * 50);
+        }
         productDtos.put(productDto.getId(), productDto);
       }
     }
@@ -120,14 +121,19 @@ public class UserOrderProductService {
 
   }
 
-//  public List getOptimalProduct(String idMap){
-//    Map<String, ProductDto> productByIdMaps = getProductByIdMaps(idMap);
-//
-//
-//    BackpackService backpackService = new BackpackService();
-//    backpackService.getResultForOptimalWeight()
+  public List getOptimalProduct(String idMap) {
+    Map<String, ProductDto> productByIdMaps = getProductByIdMaps(idMap);
+    Maps byIdMaps = mapsRepository.findByIdMaps(idMap);
+    Route idNextRoute = byIdMaps.getIdNextRoute();
+    Transport idTransport = idNextRoute.getIdTransport();
 
-//  }
+    BackpackService<ProductDto> backpackService = new BackpackService<ProductDto>(
+        idTransport.getMaxWeight());
+    List<ProductDto> resultForOptimalWeight = backpackService
+        .getResultForOptimalWeight(new ArrayList<>(productByIdMaps.values()));
+    return resultForOptimalWeight;
+
+  }
 
   public void remove(String id) {
 

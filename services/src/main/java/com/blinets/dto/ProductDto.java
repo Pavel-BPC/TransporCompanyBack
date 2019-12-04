@@ -4,12 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-public class ProductDto {
+public class ProductDto extends Item {
 
-  private String id;
-  private String name;
-  private Integer weight;
+
 }

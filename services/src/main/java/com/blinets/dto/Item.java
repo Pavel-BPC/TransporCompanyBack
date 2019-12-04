@@ -13,5 +13,4 @@ public abstract class Item
   private String name;
   private double weight;
   private double price;
-
 }
