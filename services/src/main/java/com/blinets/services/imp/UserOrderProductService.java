@@ -41,6 +41,7 @@ public class UserOrderProductService {
   @Autowired
   private MapsRepository mapsRepository;
 
+
   public String createUserOrderProduct(UserOrderProductDto userOrderProductDto)
       throws DontExistsObjectInDatabaseException, UniqueObjectException {
     Product product = new Product();
@@ -53,7 +54,7 @@ public class UserOrderProductService {
     userOrder.setStartDate(null);
     userOrder.setEndDate(null);
 
-    userOrder.setUser(null);
+    userOrder.setUser(userRepository.findByIdUser(userOrderProductDto.getIdUser()));
 
     userOrder.setMaps(null);
 
@@ -111,12 +112,22 @@ public class UserOrderProductService {
         productDto.setId(product.getIdProduct());
         productDto.setName(product.getNameProduct());
         productDto.setWeight(product.getWeightProduct());
+//        productDto.setP(product.getP());
         productDtos.put(productDto.getId(), productDto);
       }
     }
     return productDtos;
 
   }
+
+//  public List getOptimalProduct(String idMap){
+//    Map<String, ProductDto> productByIdMaps = getProductByIdMaps(idMap);
+//
+//
+//    BackpackService backpackService = new BackpackService();
+//    backpackService.getResultForOptimalWeight()
+
+//  }
 
   public void remove(String id) {
 

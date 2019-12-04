@@ -30,7 +30,7 @@ public class UserServiceSecurity {
 
   @PostConstruct
   public void init() {
-    userRepository.deleteAll();
+//    userRepository.deleteAll();
 
     User user = new User("cbd29f42-a5cc-4e9c-a906-8b2e842244db","user",passwordEncoder.encode("user"), "USER");
     User admin = new User("f813bf5b-d797-4285-84c5-eabda5154268","admin",passwordEncoder.encode("admin"),"ADMIN");

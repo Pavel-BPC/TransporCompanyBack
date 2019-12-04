@@ -45,7 +45,7 @@ public class OrderUserController extends ControllersReturnRequests {
     return new ResponseEntity<>(userOrderDtos, HttpStatus.OK);
   }
 
-  @GetMapping("/user-Order/user/{id}")
+  @GetMapping("/user-order/user/{id}")
   public ResponseEntity<List<UserOrderDto>> getUserOrder(@PathVariable String id) {
     return new ResponseEntity<>(userOrderProductService.getUserOrder(id),
         HttpStatus.OK);

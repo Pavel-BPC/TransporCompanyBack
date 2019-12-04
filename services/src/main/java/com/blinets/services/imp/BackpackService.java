@@ -3,6 +3,8 @@ package com.blinets.services.imp;
 import com.blinets.dto.Item;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Service;
+
 
 public class BackpackService<T extends Item> {
 
@@ -57,7 +59,7 @@ public class BackpackService<T extends Item> {
     }
   }
 
-  public void makeAllSets(List<T> items) {
+  private void makeAllSets(List<T> items) {
     if (items.size() > 0) {
       checkSet(items);
     }

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public abstract class Item
 {
+  private String id;
   private String name;
   private double weight;
   private double price;
