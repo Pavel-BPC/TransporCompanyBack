@@ -1,6 +1,7 @@
 package com.blinets.services.imp;
 
 
+import com.blinets.dto.GeneralMapsDto;
 import com.blinets.dto.ProductDto;
 import com.blinets.dto.UserOrderDto;
 import com.blinets.dto.UserOrderProductDto;
@@ -89,6 +90,8 @@ public class UserOrderProductService {
       userOrderDto.setStatus(userOrder.getStatus());
       userOrderDto.setEnd_date(userOrder.getEndDate());
       userOrderDto.setStart_date(userOrder.getStartDate());
+      userOrderDto.setPrice(userOrder.getPrice());
+      userOrderDto.setName(productRepository.findByUserOrder(userOrder).get(0).getNameProduct());
       userOrderDtos.add(userOrderDto);
     }
     return userOrderDtos;
@@ -121,7 +124,7 @@ public class UserOrderProductService {
 
   }
 
-  public List getOptimalProduct(String idMap) {
+  public List<ProductDto> getOptimalProduct(String idMap) {
     Map<String, ProductDto> productByIdMaps = getProductByIdMaps(idMap);
     Maps byIdMaps = mapsRepository.findByIdMaps(idMap);
     Route idNextRoute = byIdMaps.getIdNextRoute();
@@ -134,6 +137,8 @@ public class UserOrderProductService {
     return resultForOptimalWeight;
 
   }
+
+
 
   public void remove(String id) {
 

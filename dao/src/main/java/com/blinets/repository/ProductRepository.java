@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepository extends JpaRepository<Product, String> {
     Product findByIdProduct(String idProduct);
     List<Product> findByUserOrder(UserOrder userOrder);
+
 }

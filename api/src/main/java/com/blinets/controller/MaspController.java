@@ -35,7 +35,7 @@ public class MaspController extends ControllersReturnRequests {
 
   @GetMapping("/map/carrier")
   public ResponseEntity getMapForCarrier() {
-    return new ResponseEntity<>(mapsService.getGeneralMapsDtoByIdMap(), HttpStatus.OK);
+    return new ResponseEntity<>(mapsService.getGeneralMapDtoByIdMap(), HttpStatus.OK);
   }
 
   @GetMapping("/map")

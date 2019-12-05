@@ -21,6 +21,8 @@ public class UserOrderDto {
   private LocalDate start_date;
   @JsonProperty("end_date")
   private LocalDate end_date;
+  @JsonProperty("name")
+  private String name;
 
 
 }

@@ -3,22 +3,26 @@ package com.blinets.services.imp;
 import com.blinets.dto.GeneralMapsDto;
 import com.blinets.dto.MapsDto;
 import com.blinets.dto.PointDto;
+import com.blinets.dto.ProductDto;
 import com.blinets.dto.RouteDto;
 import com.blinets.dto.UserOrderProductDto;
 import com.blinets.entity.Maps;
 import com.blinets.entity.Point;
+import com.blinets.entity.Product;
 import com.blinets.entity.Route;
+import com.blinets.entity.UserOrder;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
 import com.blinets.mapper.PointMapper;
 import com.blinets.repository.MapsRepository;
 import com.blinets.repository.PointRepository;
+import com.blinets.repository.ProductRepository;
 import com.blinets.repository.RouteRepository;
 import com.blinets.repository.TransportRepository;
+import com.blinets.repository.UserOrderRepository;
 import com.blinets.services.CrudService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +31,6 @@ import javax.annotation.PostConstruct;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class MapsService implements CrudService<MapsDto> {
@@ -40,7 +43,10 @@ public class MapsService implements CrudService<MapsDto> {
   private final MapsRepository mapsRepository;
   private final UserOrderProductService userOrderProductService;
   private PointMapper pointMapper = Mappers.getMapper(PointMapper.class);
-
+  @Autowired
+  private ProductRepository productRepository;
+  @Autowired
+  private UserOrderRepository userOrderRepository;
 
   @Autowired
   public MapsService(PointServer pointServer, PointRepository pointRepository,
@@ -130,11 +136,11 @@ public class MapsService implements CrudService<MapsDto> {
   public GeneralMapsDto getGeneralMapsDtoWithPoints(String id) {
     Maps maps = mapsRepository.findByIdMaps(id);
 
-    return getGeneralMapsDtoByIdMap(maps);
+    return getGeneralMapDtoByIdMap(maps);
 
   }
 
-  private GeneralMapsDto getGeneralMapsDtoByIdMap(Maps maps) {
+  public GeneralMapsDto getGeneralMapDtoByIdMap(Maps maps) {
     Route route = routeRepository.findByIdRoute(maps.getIdNextRoute().getIdRoute());
     GeneralMapsDto generalMapsDto = new GeneralMapsDto();
     generalMapsDto.setIdMap(maps.getIdMaps());
@@ -165,11 +171,11 @@ public class MapsService implements CrudService<MapsDto> {
   }
 
   public List<GeneralMapsDto> getGeneralListMapsDtoWithPoints() {
-    return mapsRepository.findAll().stream().map(this::getGeneralMapsDtoByIdMap)
+    return mapsRepository.findAll().stream().map(this::getGeneralMapDtoByIdMap)
         .collect(Collectors.toList());
   }
 
-  public List<GeneralMapsDto> getGeneralMapsDtoByIdMap() {
+  public List<GeneralMapsDto> getGeneralMapDtoByIdMap() {
     List<Maps> mapsList = mapsRepository.findAll();
     List<GeneralMapsDto> generalMapsDtoList = new ArrayList<>();
     for (Maps maps : mapsList) {
@@ -201,6 +207,33 @@ public class MapsService implements CrudService<MapsDto> {
     return generalMapsDtoList;
   }
 
+  public void saveUserOrderProduct(String id) {
+
+    List<ProductDto> optimalProduct = userOrderProductService.getOptimalProduct(id);
+    GeneralMapsDto generalMapsDtoByIdMap = getGeneralMapDtoByIdMap(
+        mapsRepository.findByIdMaps(id));
+    for (ProductDto productDto : optimalProduct
+    ) {
+      Product product = productRepository.findByIdProduct(productDto.getId());
+      UserOrder userOrder = product.getUserOrder();
+
+      if (product.getTypeProduct().equals("1")) {
+        userOrder.setPrice((
+            product.getWeightProduct() * 75 * Integer
+                .parseInt(generalMapsDtoByIdMap.getGeneral_distance())) +
+            Integer.parseInt(generalMapsDtoByIdMap.getGeneral_cost()));
+      } else {
+        userOrder.setPrice((product.getWeightProduct() * 50 * Integer
+            .parseInt(generalMapsDtoByIdMap.getGeneral_distance())) +
+            Integer.parseInt(generalMapsDtoByIdMap.getGeneral_cost()));
+      }
+      userOrder.setStatus("In progress");
+      userOrderRepository.save(userOrder);
+    }
+
+  }
+
+
   @Override
   public void remove(String id) {
     mapsRepository.deleteById(id);
@@ -213,58 +246,54 @@ public class MapsService implements CrudService<MapsDto> {
 
   @PostConstruct
   void init() throws IOException, UniqueObjectException, DontExistsObjectInDatabaseException {
-    MapsDto mapsDto = new ObjectMapper().readValue(
-        "{\"routeDtos\":[{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\",\"transport\":\"a3ba172f-d772-487e-a820-5e4595e96be5\",\"distance\":\"100\",\"cost\":\"100\",\"time\":\"20\"},{\"start_point\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\",\"end_point\":\"5db17bc6-1bd7-4a0b-b043-604ca718e06f\",\"transport\":\"16995a17-a0fc-46e0-a602-dc54b7dc462c\",\"distance\":\"100\",\"cost\":\"200\",\"time\":\"20\"},{\"start_point\":\"5db17bc6-1bd7-4a0b-b043-604ca718e06f\",\"end_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"transport\":\"4dbae581-4aae-4018-af66-0520525542d4\",\"distance\":\"200\",\"cost\":\"40\",\"time\":\"30\"}]}"
-        , MapsDto.class);
-    String idMap1 = create(mapsDto);
-    mapsDto = new ObjectMapper().readValue(
-        "{\"routeDtos\":[{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\",\"transport\":\"a3ba172f-d772-487e-a820-5e4595e96be5\",\"distance\":\"100\",\"cost\":\"100\",\"time\":\"20\"},{\"start_point\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\",\"end_point\":\"5db17bc6-1bd7-4a0b-b043-604ca718e06f\",\"transport\":\"16995a17-a0fc-46e0-a602-dc54b7dc462c\",\"distance\":\"100\",\"cost\":\"200\",\"time\":\"20\"},{\"start_point\":\"5db17bc6-1bd7-4a0b-b043-604ca718e06f\",\"end_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"transport\":\"4dbae581-4aae-4018-af66-0520525542d4\",\"distance\":\"200\",\"cost\":\"40\",\"time\":\"30\"},{\"start_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"end_point\":\"dad7d429-8f2d-4e22-af40-a3cb929cbddc\",\"transport\":\"4dbae581-4aae-4018-af66-0520525542d4\",\"distance\":\"321\",\"cost\":\"17\",\"time\":\"50\"}]}"
-        , MapsDto.class);
-    String idMap2 = create(mapsDto);
-    mapsDto = new ObjectMapper().readValue(
-        "{\"routeDtos\":[{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\",\"transport\":\"a3ba172f-d772-487e-a820-5e4595e96be5\",\"distance\":\"100\",\"cost\":\"100\",\"time\":\"20\"},{\"start_point\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\",\"end_point\":\"5db17bc6-1bd7-4a0b-b043-604ca718e06f\",\"transport\":\"16995a17-a0fc-46e0-a602-dc54b7dc462c\",\"distance\":\"100\",\"cost\":\"200\",\"time\":\"20\"},{\"start_point\":\"5db17bc6-1bd7-4a0b-b043-604ca718e06f\",\"end_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"transport\":\"4dbae581-4aae-4018-af66-0520525542d4\",\"distance\":\"200\",\"cost\":\"40\",\"time\":\"30\"},{\"start_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"end_point\":\"dad7d429-8f2d-4e22-af40-a3cb929cbddc\",\"transport\":\"4dbae581-4aae-4018-af66-0520525542d4\",\"distance\":\"321\",\"cost\":\"17\",\"time\":\"50\"},{\"start_point\":\"dad7d429-8f2d-4e22-af40-a3cb929cbddc\",\"end_point\":\"45b09dec-323e-4e70-b7f9-ce877efb1616\",\"transport\":\"4dbae581-4aae-4018-af66-0520525542d4\",\"distance\":\"54\",\"cost\":\"34\",\"time\":\"65\"}]}"
-        , MapsDto.class);
-    String idMap3 = create(mapsDto);
-
-
-
-    UserOrderProductDto userOrderProductDto =
-        new ObjectMapper().readValue(
-            "{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"weight_product\":\"100\",\"type_product\":\"1\",\"name_product\":\"Торф\",\"id_user\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\"}"
-            , UserOrderProductDto.class);
-    String idUserOrder1 = userOrderProductService.createUserOrderProduct(userOrderProductDto);
-
-   userOrderProductDto =
-        new ObjectMapper().readValue(
-            "{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"weight_product\":\"100\",\"type_product\":\"1\",\"name_product\":\"Уголь\",\"id_user\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\"}"
-            , UserOrderProductDto.class);
-    String idUserOrder2 = userOrderProductService.createUserOrderProduct(userOrderProductDto);
-
-   userOrderProductDto =
-        new ObjectMapper().readValue(
-            "{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"weight_product\":\"50\",\"type_product\":\"2\",\"name_product\":\"Стаканчики\",\"id_user\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\"}"
-            , UserOrderProductDto.class);
-    String idUserOrder3 = userOrderProductService.createUserOrderProduct(userOrderProductDto);
-
-    userOrderProductDto =
-        new ObjectMapper().readValue(
-            "{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"weight_product\":\"75\",\"type_product\":\"2\",\"name_product\":\"Столы\",\"id_user\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\"}"
-            , UserOrderProductDto.class);
-    String idUserOrder4 = userOrderProductService.createUserOrderProduct(userOrderProductDto);
-
-    userOrderProductDto =
-        new ObjectMapper().readValue(
-            "{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"dad7d429-8f2d-4e22-af40-a3cb929cbddc\",\"weight_product\":\"75\",\"type_product\":\"2\",\"name_product\":\"Столы\",\"id_user\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\"}"
-            , UserOrderProductDto.class);
-    String idUserOrder5 = userOrderProductService.createUserOrderProduct(userOrderProductDto);
-
-    userOrderProductDto =
-        new ObjectMapper().readValue(
-            "{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"45b09dec-323e-4e70-b7f9-ce877efb1616\",\"weight_product\":\"20\",\"type_product\":\"1\",\"name_product\":\"Тумбы\",\"id_user\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\"}"
-            , UserOrderProductDto.class);
-    String idUserOrder6 = userOrderProductService.createUserOrderProduct(userOrderProductDto);
-
-
+//    MapsDto mapsDto = new ObjectMapper().readValue(
+//        "{\"routeDtos\":[{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\",\"transport\":\"a3ba172f-d772-487e-a820-5e4595e96be5\",\"distance\":\"100\",\"cost\":\"100\",\"time\":\"20\"},{\"start_point\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\",\"end_point\":\"5db17bc6-1bd7-4a0b-b043-604ca718e06f\",\"transport\":\"16995a17-a0fc-46e0-a602-dc54b7dc462c\",\"distance\":\"100\",\"cost\":\"200\",\"time\":\"20\"},{\"start_point\":\"5db17bc6-1bd7-4a0b-b043-604ca718e06f\",\"end_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"transport\":\"4dbae581-4aae-4018-af66-0520525542d4\",\"distance\":\"200\",\"cost\":\"40\",\"time\":\"30\"}]}"
+//        , MapsDto.class);
+//    String idMap1 = create(mapsDto);
+//    mapsDto = new ObjectMapper().readValue(
+//        "{\"routeDtos\":[{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\",\"transport\":\"a3ba172f-d772-487e-a820-5e4595e96be5\",\"distance\":\"100\",\"cost\":\"100\",\"time\":\"20\"},{\"start_point\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\",\"end_point\":\"5db17bc6-1bd7-4a0b-b043-604ca718e06f\",\"transport\":\"16995a17-a0fc-46e0-a602-dc54b7dc462c\",\"distance\":\"100\",\"cost\":\"200\",\"time\":\"20\"},{\"start_point\":\"5db17bc6-1bd7-4a0b-b043-604ca718e06f\",\"end_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"transport\":\"4dbae581-4aae-4018-af66-0520525542d4\",\"distance\":\"200\",\"cost\":\"40\",\"time\":\"30\"},{\"start_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"end_point\":\"dad7d429-8f2d-4e22-af40-a3cb929cbddc\",\"transport\":\"4dbae581-4aae-4018-af66-0520525542d4\",\"distance\":\"321\",\"cost\":\"17\",\"time\":\"50\"}]}"
+//        , MapsDto.class);
+//    String idMap2 = create(mapsDto);
+//    mapsDto = new ObjectMapper().readValue(
+//        "{\"routeDtos\":[{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\",\"transport\":\"a3ba172f-d772-487e-a820-5e4595e96be5\",\"distance\":\"100\",\"cost\":\"100\",\"time\":\"20\"},{\"start_point\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\",\"end_point\":\"5db17bc6-1bd7-4a0b-b043-604ca718e06f\",\"transport\":\"16995a17-a0fc-46e0-a602-dc54b7dc462c\",\"distance\":\"100\",\"cost\":\"200\",\"time\":\"20\"},{\"start_point\":\"5db17bc6-1bd7-4a0b-b043-604ca718e06f\",\"end_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"transport\":\"4dbae581-4aae-4018-af66-0520525542d4\",\"distance\":\"200\",\"cost\":\"40\",\"time\":\"30\"},{\"start_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"end_point\":\"dad7d429-8f2d-4e22-af40-a3cb929cbddc\",\"transport\":\"4dbae581-4aae-4018-af66-0520525542d4\",\"distance\":\"321\",\"cost\":\"17\",\"time\":\"50\"},{\"start_point\":\"dad7d429-8f2d-4e22-af40-a3cb929cbddc\",\"end_point\":\"45b09dec-323e-4e70-b7f9-ce877efb1616\",\"transport\":\"4dbae581-4aae-4018-af66-0520525542d4\",\"distance\":\"54\",\"cost\":\"34\",\"time\":\"65\"}]}"
+//        , MapsDto.class);
+//    String idMap3 = create(mapsDto);
+//
+//    UserOrderProductDto userOrderProductDto =
+//        new ObjectMapper().readValue(
+//            "{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"weight_product\":\"100\",\"type_product\":\"1\",\"name_product\":\"Торф\",\"id_user\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\"}"
+//            , UserOrderProductDto.class);
+//    String idUserOrder1 = userOrderProductService.createUserOrderProduct(userOrderProductDto);
+//
+//    userOrderProductDto =
+//        new ObjectMapper().readValue(
+//            "{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"weight_product\":\"100\",\"type_product\":\"1\",\"name_product\":\"Уголь\",\"id_user\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\"}"
+//            , UserOrderProductDto.class);
+//    String idUserOrder2 = userOrderProductService.createUserOrderProduct(userOrderProductDto);
+//
+//    userOrderProductDto =
+//        new ObjectMapper().readValue(
+//            "{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"weight_product\":\"50\",\"type_product\":\"2\",\"name_product\":\"Стаканчики\",\"id_user\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\"}"
+//            , UserOrderProductDto.class);
+//    String idUserOrder3 = userOrderProductService.createUserOrderProduct(userOrderProductDto);
+//
+//    userOrderProductDto =
+//        new ObjectMapper().readValue(
+//            "{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"8211e92f-ba50-41f1-b99c-c961353d90bf\",\"weight_product\":\"75\",\"type_product\":\"2\",\"name_product\":\"Столы\",\"id_user\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\"}"
+//            , UserOrderProductDto.class);
+//    String idUserOrder4 = userOrderProductService.createUserOrderProduct(userOrderProductDto);
+//
+//    userOrderProductDto =
+//        new ObjectMapper().readValue(
+//            "{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"dad7d429-8f2d-4e22-af40-a3cb929cbddc\",\"weight_product\":\"75\",\"type_product\":\"2\",\"name_product\":\"Столы\",\"id_user\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\"}"
+//            , UserOrderProductDto.class);
+//    String idUserOrder5 = userOrderProductService.createUserOrderProduct(userOrderProductDto);
+//
+//    userOrderProductDto =
+//        new ObjectMapper().readValue(
+//            "{\"start_point\":\"459c7b45-bddc-48af-affd-30f4268aa946\",\"end_point\":\"45b09dec-323e-4e70-b7f9-ce877efb1616\",\"weight_product\":\"20\",\"type_product\":\"1\",\"name_product\":\"Тумбы\",\"id_user\":\"cbd29f42-a5cc-4e9c-a906-8b2e842244db\"}"
+//            , UserOrderProductDto.class);
+//    String idUserOrder6 = userOrderProductService.createUserOrderProduct(userOrderProductDto);
 
   }
 }
