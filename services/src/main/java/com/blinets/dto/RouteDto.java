@@ -22,6 +22,6 @@ public class RouteDto {
   @JsonProperty("cost")
   private Integer cost;
   @JsonProperty("time")
-  private String time;
+  private Integer time;
 
 }

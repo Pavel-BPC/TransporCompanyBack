@@ -32,7 +32,7 @@ public class Route {
   @Column
   private Integer cost;
   @Column
-  private LocalDate time;
+  private Integer time;
   @Column
   private Integer distance;
   @OneToOne(fetch = FetchType.EAGER)
