@@ -2,12 +2,10 @@ package com.blinets.controller;
 
 import com.blinets.configuration.ControllersReturnRequests;
 import com.blinets.dto.PointDto;
-import com.blinets.dto.ROLE;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
 import com.blinets.services.CrudService;
 import java.util.List;
-import javax.annotation.security.RolesAllowed;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -43,9 +41,10 @@ public class PointController extends ControllersReturnRequests {
   }
 
   @PostMapping("/point")
-  public ResponseEntity<String> createPoint(@RequestBody PointDto pointDto)
+  public ResponseEntity createPoint(@RequestBody PointDto pointDto)
       throws UniqueObjectException, DontExistsObjectInDatabaseException {
-    return new ResponseEntity<>(pointServer.create(pointDto), HttpStatus.OK);
+    pointServer.create(pointDto);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @DeleteMapping("/point/{id}")

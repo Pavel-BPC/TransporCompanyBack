@@ -46,7 +46,8 @@ public class MaspController extends ControllersReturnRequests {
   @PostMapping("/map")
   public ResponseEntity<String> createMap(@RequestBody MapsDto mapsDto)
       throws UniqueObjectException, DontExistsObjectInDatabaseException {
-    return new ResponseEntity<>(mapsService.create(mapsDto), HttpStatus.OK);
+    mapsService.create(mapsDto);
+    return new ResponseEntity<>( HttpStatus.OK);
   }
 
   @DeleteMapping("/map/{id}")

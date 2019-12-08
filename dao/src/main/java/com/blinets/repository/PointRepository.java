@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
 public interface PointRepository extends JpaRepository<Point, String> {
     Point findByIdPoint(String id);
 
-    void deleteByIdPoint(String id);
+
+    void removeByIdPoint(String id);
 
 
 }

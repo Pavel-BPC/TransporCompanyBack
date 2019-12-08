@@ -58,7 +58,8 @@ public class OrderUserController extends ControllersReturnRequests {
 //      @PathVariable String id,
       @RequestBody UserOrderProductDto userOrderProductDto)
       throws UniqueObjectException, DontExistsObjectInDatabaseException {
-    return new ResponseEntity<>(userOrderProductService.createUserOrderProduct(userOrderProductDto),HttpStatus.OK);
+    userOrderProductService.createUserOrderProduct(userOrderProductDto);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @DeleteMapping("/userOrder/{id}")

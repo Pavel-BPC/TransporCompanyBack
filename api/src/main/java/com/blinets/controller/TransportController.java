@@ -45,9 +45,10 @@ public class TransportController extends ControllersReturnRequests {
 
 
   @PostMapping("/transport")
-  public ResponseEntity<String> createTransport(@RequestBody TransportDto  transportDto )
+  public ResponseEntity createTransport(@RequestBody TransportDto  transportDto )
       throws UniqueObjectException, DontExistsObjectInDatabaseException {
-    return new ResponseEntity<>(transportService.create(transportDto), HttpStatus.OK);
+    transportService.create(transportDto);
+    return returnOkRequest();
   }
 
 

@@ -24,20 +24,28 @@ import java.util.Map;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class UserOrderProductService {
 
+  private final ProductRepository productRepository;
+  private final UserOrderRepository userOrderRepository;
+  private final PointRepository pointRepository;
+  private final UserRepository userRepository;
+  private final MapsRepository mapsRepository;
+
   @Autowired
-  private ProductRepository productRepository;
-  @Autowired
-  private UserOrderRepository userOrderRepository;
-  @Autowired
-  private PointRepository pointRepository;
-  @Autowired
-  private UserRepository userRepository;
-  @Autowired
-  private MapsRepository mapsRepository;
+  public UserOrderProductService(ProductRepository productRepository,
+      UserOrderRepository userOrderRepository, PointRepository pointRepository,
+      UserRepository userRepository, MapsRepository mapsRepository) {
+    this.productRepository = productRepository;
+    this.userOrderRepository = userOrderRepository;
+    this.pointRepository = pointRepository;
+    this.userRepository = userRepository;
+    this.mapsRepository = mapsRepository;
+  }
 
 
   public String createUserOrderProduct(UserOrderProductDto userOrderProductDto)

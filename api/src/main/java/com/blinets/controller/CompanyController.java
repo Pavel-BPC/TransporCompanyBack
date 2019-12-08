@@ -42,7 +42,8 @@ public class CompanyController extends ControllersReturnRequests {
   @PostMapping("/company")
   public ResponseEntity<String> createCompany(@RequestBody CompanyDto companyDto)
       throws UniqueObjectException, DontExistsObjectInDatabaseException {
-    return new ResponseEntity<>(companyService.create(companyDto), HttpStatus.OK);
+    companyService.create(companyDto);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @DeleteMapping("/company/{id}")

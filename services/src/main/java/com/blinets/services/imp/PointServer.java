@@ -15,8 +15,10 @@ import javax.annotation.PostConstruct;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class PointServer implements CrudService<PointDto> {
 
   @Autowired
@@ -45,7 +47,7 @@ public class PointServer implements CrudService<PointDto> {
 
   @Override
   public void remove(String id) {
-    pointRepository.deleteByIdPoint(id);
+    pointRepository.removeByIdPoint(id);
   }
 
   @Override
@@ -58,13 +60,13 @@ public class PointServer implements CrudService<PointDto> {
 
   @PostConstruct
   public void init(){
-    pointRepository.saveAll(Arrays.asList(
-        new Point("459c7b45-bddc-48af-affd-30f4268aa946","Клецк"),
-        new Point("cbd29f42-a5cc-4e9c-a906-8b2e842244db","Солигорск"),
-        new Point("5db17bc6-1bd7-4a0b-b043-604ca718e06f","Минск"),
-        new Point("8211e92f-ba50-41f1-b99c-c961353d90bf","Гродно"),
-        new Point("dad7d429-8f2d-4e22-af40-a3cb929cbddc","Орша"),
-        new Point("45b09dec-323e-4e70-b7f9-ce877efb1616","Речица")
-            ));
+//    pointRepository.saveAll(Arrays.asList(
+//        new Point("459c7b45-bddc-48af-affd-30f4268aa946","Клецк"),
+//        new Point("cbd29f42-a5cc-4e9c-a906-8b2e842244db","Солигорск"),
+//        new Point("5db17bc6-1bd7-4a0b-b043-604ca718e06f","Минск"),
+//        new Point("8211e92f-ba50-41f1-b99c-c961353d90bf","Гродно"),
+//        new Point("dad7d429-8f2d-4e22-af40-a3cb929cbddc","Орша"),
+//        new Point("45b09dec-323e-4e70-b7f9-ce877efb1616","Речица")
+//            ));
   }
 }

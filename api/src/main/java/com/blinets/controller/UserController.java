@@ -66,6 +66,10 @@ public class UserController extends ControllersReturnRequests {
     System.out.println();
     return new ResponseEntity<>(userServices.get(), HttpStatus.OK);
   }
+  @GetMapping("/user/{id}")
+  public ResponseEntity<UserDto> getUser(@PathVariable String id) {
+    return new ResponseEntity<>(userServices.get(id), HttpStatus.OK);
+  }
 
   @PostMapping("/user")
   public ResponseEntity createUser(@RequestBody UserDto userDto,

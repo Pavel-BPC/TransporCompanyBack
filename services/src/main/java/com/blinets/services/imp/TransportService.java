@@ -16,8 +16,10 @@ import javax.annotation.PostConstruct;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class TransportService implements CrudService<TransportDto> {
 
   @Autowired
@@ -60,18 +62,18 @@ public class TransportService implements CrudService<TransportDto> {
 
   @PostConstruct
   public void init(){
-    Company company1 = new Company();
-    Company company2 = new Company();
-    company1.setIdCompany("de871baf-b12a-4bcb-9915-b303d7f41813");
-    company2.setIdCompany("696ea116-8305-4e65-899b-07d27b49cfb2");
-    transportRepository.saveAll(
-        Arrays.asList(
-            new Transport("a3ba172f-d772-487e-a820-5e4595e96be5","Трактор",1,300,45,company1),
-            new Transport("16995a17-a0fc-46e0-a602-dc54b7dc462c","Маз",3,150,76,company1),
-            new Transport("4dbae581-4aae-4018-af66-0520525542d4","Белаз",2,250,36,company2),
-            new Transport("0cbce512-9cd3-4cf1-b32a-8cdda4c93065","Камаз",4,400,90,company2)
-        )
-
-    );
+//    Company company1 = new Company();
+//    Company company2 = new Company();
+//    company1.setIdCompany("de871baf-b12a-4bcb-9915-b303d7f41813");
+//    company2.setIdCompany("696ea116-8305-4e65-899b-07d27b49cfb2");
+//    transportRepository.saveAll(
+//        Arrays.asList(
+//            new Transport("a3ba172f-d772-487e-a820-5e4595e96be5","Трактор",1,300,45,company1),
+//            new Transport("16995a17-a0fc-46e0-a602-dc54b7dc462c","Маз",3,150,76,company1),
+//            new Transport("4dbae581-4aae-4018-af66-0520525542d4","Белаз",2,250,36,company2),
+//            new Transport("0cbce512-9cd3-4cf1-b32a-8cdda4c93065","Камаз",4,400,90,company2)
+//        )
+//
+//    );
   }
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserDto {
 
-  @JsonProperty("idUser")
+  @JsonProperty("id")
   private String idUser;
   @JsonProperty("first_name")
   private String name;

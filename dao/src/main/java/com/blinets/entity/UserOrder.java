@@ -31,7 +31,7 @@ public class UserOrder {
   private String status;
 
   @Column(nullable = true)
-  private LocalDate fullTime;
+  private Integer fullTime;
   @Column(nullable = true)
   private LocalDate startDate;
   @Column(nullable = true)

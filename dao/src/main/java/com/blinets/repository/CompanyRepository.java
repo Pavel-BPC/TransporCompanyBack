@@ -10,4 +10,7 @@ public interface CompanyRepository extends JpaRepository<Company, String> {
 
 
   Company findByIdCompany(String id);
+
+  void removeByIdCompany(String id);
+
 }
