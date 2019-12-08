@@ -6,9 +6,9 @@ VALUES ('f813bf5b-d797-4285-84c5-eabda5154268',1,'admin','$2a$10$heLUJ2pO2GOGqMh
 INSERT INTO public.user_s (id_user,active,login_email,"password","role")
 VALUES ('9cc3a063-8ba1-4321-9204-5d1bf3b67520',1,'carrier','$2a$10$oEcK7ArCOos1itotIn3bSOokeX0JXDI.AG2tMFbuT0q5lKM7yMZ/q','CARRIER');
 INSERT INTO public.user_s (id_user,active,last_name,login_email,"name","password",phone_number,"role")
-VALUES ('425cbb54-b788-4d1f-9f75-2a0cfbfc5c8d',0,'Блинец','pavel','Павел','$2a$10$pBlfmLod9bcLBwBHowG4HeBnFbYei7Cf0VtgWRCoYEH7Rs.wROM56','37529-123-45-56','USER');
+VALUES ('425cbb54-b788-4d1f-9f75-2a0cfbfc5c8d',1,'Блинец','pavel','Павел','$2a$10$pBlfmLod9bcLBwBHowG4HeBnFbYei7Cf0VtgWRCoYEH7Rs.wROM56','37529-123-45-56','USER');
 INSERT INTO public.user_s (id_user,active,last_name,login_email,"name","password",phone_number,"role")
-VALUES ('242c5d3e-5c5a-41a9-8a27-a448b37e737b',0,'Клезович','anastasia','Анастасия','$2a$10$pfmxU61daWWFPgBvvz3XQ.jEwq3pwWiZS44FvsVtWA2CtXm.By9.m','37529-123-45-56','CARRIER');
+VALUES ('242c5d3e-5c5a-41a9-8a27-a448b37e737b',1,'Клезович','anastasia','Анастасия','$2a$10$pfmxU61daWWFPgBvvz3XQ.jEwq3pwWiZS44FvsVtWA2CtXm.By9.m','37529-123-45-56','CARRIER');
 
 
 -- Actual parameter values may differ, what you see is a default string representation of values

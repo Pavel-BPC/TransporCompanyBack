@@ -1,6 +1,7 @@
 package com.blinets.controller;
 
 import com.blinets.configuration.ControllersReturnRequests;
+import com.blinets.dto.CompanyDto;
 import com.blinets.dto.TransportDto;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,6 +53,14 @@ public class TransportController extends ControllersReturnRequests {
     return returnOkRequest();
   }
 
+  @PutMapping("/transport/{id}")
+  public ResponseEntity edit(@RequestBody TransportDto transportDto,@PathVariable String id)
+      throws DontExistsObjectInDatabaseException {
+    transportDto.setIdTransport(id);
+    transportService.update(transportDto);
+    return returnOkRequest();
+
+  }
 
 
 

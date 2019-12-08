@@ -1,7 +1,6 @@
 package com.blinets.services.imp;
 
 import com.blinets.dto.TransportDto;
-import com.blinets.entity.Company;
 import com.blinets.entity.Transport;
 import com.blinets.exceptions.DontExistsObjectInDatabaseException;
 import com.blinets.exceptions.UniqueObjectException;
@@ -9,10 +8,10 @@ import com.blinets.mapper.TransportMapper;
 import com.blinets.repository.CompanyRepository;
 import com.blinets.repository.TransportRepository;
 import com.blinets.services.CrudService;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,12 +55,20 @@ public class TransportService implements CrudService<TransportDto> {
   }
 
   @Override
-  public void update(TransportDto object) throws DontExistsObjectInDatabaseException {
-    throw new DontExistsObjectInDatabaseException();
+  public void update(TransportDto transportDto) throws DontExistsObjectInDatabaseException {
+    Transport transport = transportRepository.findByIdTransport(transportDto.getIdTransport());
+    if (StringUtils.isNotEmpty(transportDto.getNameTransport())) {
+      transport.setNameTransport(transportDto.getNameTransport());
+    }
+    transport.setMaxWeight(transportDto.getMaxWeight());
+    transport.setSpeed(transportDto.getSpeed());
+    transport.setTariffPlan(transportDto.getTariffPlan());
+
+
   }
 
   @PostConstruct
-  public void init(){
+  public void init() {
 //    Company company1 = new Company();
 //    Company company2 = new Company();
 //    company1.setIdCompany("de871baf-b12a-4bcb-9915-b303d7f41813");

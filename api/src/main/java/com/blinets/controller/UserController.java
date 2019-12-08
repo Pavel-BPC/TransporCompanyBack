@@ -88,6 +88,7 @@ public class UserController extends ControllersReturnRequests {
   @PutMapping("/user/{id}")
   public ResponseEntity editUser(@PathVariable String id, @RequestBody UserDto userDto)
       throws DontExistsObjectInDatabaseException {
+    userDto.setIdUser(id);
     userServices.update(userDto);
     return returnOkRequest();
   }

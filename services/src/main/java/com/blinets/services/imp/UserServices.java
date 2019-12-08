@@ -10,13 +10,12 @@ import com.blinets.services.CrudService;
 import java.util.List;
 import java.util.UUID;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Log4j2
 @Service
@@ -35,12 +34,16 @@ public class UserServices implements CrudService<UserDto> {
   }
 
   @Override
-  public String create(UserDto userDto )
+  public String create(UserDto userDto)
       throws DontExistsObjectInDatabaseException, UniqueObjectException {
     User user = userMapper.dtoToUser(userDto);
     user.setIdUser(UUID.randomUUID().toString());
     user.setPassword(passwordEncoder.encode(user.getPassword()));
-    user.setRole(userDto.getRole());
+    if (StringUtils.isNotEmpty(userDto.getRole())) {
+      user.setRole(userDto.getRole());
+    }
+    else user.setRole("USER");
+    user.setActive(1);
     userRepository.save(user);
     return user.getIdUser();
   }
@@ -71,12 +74,17 @@ public class UserServices implements CrudService<UserDto> {
     if (StringUtils.isNotEmpty(userDto.getLastName())) {
       byIdUser.setLastName(userDto.getLastName());
     }
+    if (StringUtils.isNotEmpty(userDto.getLoginEmail())) {
+      byIdUser.setLoginEmail(userDto.getLoginEmail());
+    }
     //TODO
     if (StringUtils.isNotEmpty(userDto.getPhoneNumber())) {
       byIdUser.setPhoneNumber(userDto.getPhoneNumber());
     }
-    if (StringUtils.isNotEmpty(userDto.getPassword())) {
-      byIdUser.setPassword(userDto.getPassword());
+    if (!byIdUser.getPassword().equals(userDto.getPassword())) {
+      if (StringUtils.isNotEmpty(userDto.getPassword())) {
+        byIdUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+      }
     }
 
     userRepository.save(byIdUser);

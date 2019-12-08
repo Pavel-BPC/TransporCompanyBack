@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,9 +53,10 @@ public class CompanyController extends ControllersReturnRequests {
     return returnOkRequest();
   }
 
-  @PatchMapping("/company")
-  public ResponseEntity update(@RequestBody CompanyDto companyDto)
+  @PutMapping("/company/{id}")
+  public ResponseEntity update(@RequestBody CompanyDto companyDto,@PathVariable String id)
       throws DontExistsObjectInDatabaseException {
+    companyDto.setIdCompany(id);
     companyService.update(companyDto);
     return returnOkRequest();
   }
